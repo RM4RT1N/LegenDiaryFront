@@ -1,0 +1,28 @@
+.navbar {
+  display: flex;
+  width: 100vw;
+  height: 7vh;
+  justify-content: center;
+  background-color: #333;
+}
+
+.navbar-list {
+  display: flex;
+  flex-grow: inherit;
+  width: 100%;
+  justify-content: center;
+  list-style: none;
+}
+.nav-element{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+.nav-element:hover{
+  background-color: #484747;
+}

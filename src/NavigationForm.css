@@ -1,0 +1,29 @@
+.login-form{
+    width: 45%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.register-form{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.form-element{
+    height: 40%;
+}
+.form-element input{
+    height: 100%;
+}
+
+.errorMsg{
+    font-size: 14px;
+    color: red;
+}
+.form-button{
+    width: 15%;
+    height: 40%;
+}
