@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./Login";
 import Register from "./Register";
 import './Navbar.css';
-import AddLegend from "./AddLegend";
 
 
 
@@ -36,36 +35,40 @@ class Navbar extends React.Component  {
                 login:false,
                 register:true})
     }
-    handleSearchActive(){
-        if (this.state.search){
-            this.setState({search:false})
-        }else
-            this.setState({ search:true,
-                login:false,
-                register:false})
-    }
+
     setSearchDistance(searchDistance){
         this.props.setSearchDistance(searchDistance)
+    }
+    handleLogout() {
+        localStorage.removeItem("jwtToken")
+        window.location.reload()
     }
   render() {
 
       return (
           <nav className="navbar">
-              <ul className="navbar-list">
-                
+              {!this.props.user?
+                  <ul className="navbar-list">
                   {this.state.login?
                       <Login/>:
                       <li className={"nav-element"}
-                         onClick={this.handleLoginActive.bind(this)}>
-                         Legend-in</li>}
+                          onClick={this.handleLoginActive.bind(this)}>
+                          Legend-in</li>}
                   {this.state.register?
                       <Register/>:
-                  <li className={"nav-element"}
-                      onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>}
-              </ul>
+                      <li className={"nav-element"}
+                          onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>}
+                  </ul>
+                  :
+                  <ul className="navbar-list">
+                      <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
+                  </ul>
+              }
+
           </nav>
       );
   };
-  }
+
+}
 
     export default Navbar;

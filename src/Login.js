@@ -2,6 +2,7 @@ import React from 'react';
 import './NavigationForm.css';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {redirect} from "react-router-dom";
 export default function Login(){
     const formik = useFormik({
         initialValues:{
@@ -13,7 +14,25 @@ export default function Login(){
             password:Yup.string().required('Musisz podać hasło')
         }),
         onSubmit:(values)=>{
-            console.log(values)// will provide HTTP request here
+            const data = {
+                username: values.email,
+                password: values.password
+            }
+            fetch("http://localhost:8081/api/auth/login",{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(data)
+            }).then((response => response.json()
+                .then(data => {
+                    const accessToken = data.accessToken
+                    localStorage.setItem("jwtToken", accessToken)
+                    window.location.reload()
+                }))).catch((err =>{
+                    console.log(err.message, err)
+            }))
+
         }
 
 

@@ -4,6 +4,7 @@ import vid from './video.mp4'
 import Navbar from './Navbar';
 
 const UserPanel = ({ username, email, avatarUrl }) => {
+
     return (
         <div><Navbar/>
     <div className="clmn">

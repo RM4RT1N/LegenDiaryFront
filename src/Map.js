@@ -4,7 +4,6 @@ import Weather from './Weather';
 import MapboxGeocoder from './MapGeocoder';
 import AudioPlayer from 'react-audio-player';
 import MapSearchByKeyword from './MapSearchByKeyword';
-import Navbar from './Navbar';
 import LeftSidebar from './LeftSidebar';
 
 
