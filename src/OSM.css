@@ -1,0 +1,87 @@
+.radio-player-container {
+
+    position: absolute;
+        top: 670px;
+        left: 0;
+        z-index: 1000;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       }
+.map-container {
+        position: relative;
+      }
+      
+.searchField {
+        position: absolute;
+        top:15%;
+        left: 1.5%;
+        width: fit-content;
+        height: 30px;
+        border-style: solid;
+        border-radius: 5px;
+        border: #343434;
+        border: 3px;
+        resize: none;
+        line-height: 30px;
+        text-indent: 10px;
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 100;
+        z-index: 1000;
+      }
+.searchBar {
+        position: absolute;
+        top: 10%;
+        left: 1.5%;
+        width: fit-content;
+        height: 30px;
+        border-style: solid;
+        border-radius: 5px;
+        border: #343434;
+        border: 3px;
+        resize: none;
+        line-height: 30px;
+        text-indent: 10px;
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 100;
+      }
+.searchBar:focus {
+        outline: none;
+      }
+.clearSearchBtn{
+        position: absolute;
+        background-image: url("closeBtnDark.png");
+        background-color: #056006;
+        background-size: cover;
+        border-radius: 50%;
+        border: none;   
+        height:30px;
+        width:30px;   
+        top: 5px;
+        right: 5px;   
+        cursor: pointer;
+      }
+.clearSearchBtn:hover{
+        background-color: #044e05;
+      }
+      
+.resultList {
+        position: absolute;
+        top: 12.25%;
+        left: 1.5%;
+        width: 500px;
+        padding: 0px;
+        background-color: #fff;
+        border-color: #343434;
+        border-radius: 5px;
+        border: 3px;
+        box-shadow: 0px 0px 2px 0px grey inset;
+        list-style-type: none;
+        text-indent: 5px;
+      } 
+.resultItem {
+        height: 30px;
+        margin: 5px 0;
+      } 
