@@ -153,7 +153,6 @@ componentDidMount() {
     zoom: zoom
   });
   this.setState({mapa: mapa});
-  console.log(mapa)
   
   mapa.addControl(new mapboxgl.NavigationControl());
   this.loadLegends(mapa);
