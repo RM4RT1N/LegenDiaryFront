@@ -1,19 +1,38 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import './UserPanel.css'
 import vid from './video.mp4'
 import Navbar from './Navbar';
+import jwtDecode from "jwt-decode";
 
 const UserPanel = ({ username, email, avatarUrl }) => {
+const token = localStorage.getItem("jwtToken");
+const tokenDecoded = jwtDecode(token);
+const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/user/${tokenDecoded.sub}`);
+                const data = await response.json();
+                setUserData(data);
+            } catch (error) {
+                console.error(error.message, error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
     return (
         <div><Navbar/>
     <div className="clmn">
         <video src={vid} autoPlay muted loop/>
     <div className='overlay'></div>
         <div className="user-panel">
-        <h3>User Name : {username}</h3>
+        <h3>User Name : {userData.username}</h3>
             <img src={avatarUrl} alt="User Avatar" className="avatar" />
             <h3>Account type : User</h3>
-            <p>Email : {email}</p>
+            <p>Email : {userData.username}</p>
         </div>
         <div>
        

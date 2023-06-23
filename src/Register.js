@@ -30,7 +30,7 @@ export default function Register(){
                 role:values.userType
             }
             console.log(data)
-            fetch('http://localhost:8081/user',{
+            fetch('http://localhost:8081/api/auth/register',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json',
