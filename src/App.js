@@ -5,6 +5,7 @@ import React from 'react';
 import Sidebar from './Sidebar'
 import Navbar from './Navbar';
 import jwtDecode from "jwt-decode";
+import AddLegend2 from "./AddLegend2";
 
 
 export default class App extends React.Component {
@@ -48,7 +49,11 @@ setUser(username){
                   <Navbar user={this.state.user}/>
                   <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description}/>
                   {this.state.user ?
-                      <Map toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/> :
+                      <>
+                      <AddLegend2 userId={this.state.user.id}/>
+                      <Map toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>
+                      </>:
+
                       <h1>Hello !</h1>}
               </div>)
       }else {

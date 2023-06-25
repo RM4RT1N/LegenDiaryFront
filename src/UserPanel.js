@@ -4,24 +4,56 @@ import vid from './video.mp4'
 import Navbar from './Navbar';
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ username, email, avatarUrl }) => {
-const token = localStorage.getItem("jwtToken");
-const tokenDecoded = jwtDecode(token);
-const [userData, setUserData] = useState({});
+export default class UserPanel extends React.Component {
+    constructor() {
+        super();
+        this.token = localStorage.getItem("jwtToken");
+        this.tokenDecoded = jwtDecode(this.token);
+        this.state={
+            userData: {
+                "id": "",
+                "nickname": null,
+                "username": "",
+                "avatar_image_id": null,
+                "points": null,
+                "address_id": null,
+                "places": []
+            }
+            }
+        }
 
-    useEffect(() => {
-        const fetchUser = async () => {
+
+
+    componentDidMount() {
+        this.fetchUser();
+    }
+
+    async fetchUser(){
             try {
-                const response = await fetch(`http://localhost:8081/api/user/${tokenDecoded.sub}`);
-                const data = await response.json();
-                setUserData(data);
+                const response = await fetch(`http://localhost:8081/api/user/${this.tokenDecoded.sub}`);
+                const data = await response.json()
+                    .then((data)=>{
+                        this.setState({
+                            userData:{
+                                "id": data.id,
+                                    "nickname": data.nickname,
+                                    "username": data.username,
+                                    "avatar_image_id": data.avatar_image_id,
+                                    "points": data.points,
+                                    "address_id": data.address_id,
+                                    "places": data.places
+                            }
+                        })
+                        console.log(this.state.userData)
+                    })
             } catch (error) {
                 console.error(error.message, error);
             }
         };
 
-        fetchUser();
-    }, []);
+
+
+render() {
 
     return (
         <div><Navbar/>
@@ -29,10 +61,10 @@ const [userData, setUserData] = useState({});
         <video src={vid} autoPlay muted loop/>
     <div className='overlay'></div>
         <div className="user-panel">
-        <h3>User Name : {userData.username}</h3>
-            <img src={avatarUrl} alt="User Avatar" className="avatar" />
+        <h3>User Name : {this.state.userData.username}</h3>
+            <img src={this.avatarUrl} alt="User Avatar" className="avatar" />
             <h3>Account type : User</h3>
-            <p>Email : {userData.username}</p>
+            <p>Email : {this.state.userData.username}</p>
         </div>
         <div>
        
@@ -46,8 +78,9 @@ const [userData, setUserData] = useState({});
         <div className="user-panel">
             <h3>Odyssey legend</h3>
             <ul>
-                <li>Smok Wawelski</li>
-                <li>Morderstwo na Mariackiej</li>
+                {this.state.userData.places.map((place) => (
+                    <li key={place.id}>{place.name}</li>
+                ))}
             </ul>
         </div>
         <div className="user-panel">
@@ -59,6 +92,5 @@ const [userData, setUserData] = useState({});
     </div>
     </div>
     );
-  };
+  };}
   
-  export default UserPanel;

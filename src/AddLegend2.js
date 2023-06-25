@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useNavigate } from 'react-router-dom';
 import './AddLegend2.css';
+import jwtDecode from "jwt-decode";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAP_API_KEY;
-const AddLegend2 = ({ onSubmit }) => {
+const AddLegend2 = ({ onSubmit,userId }) => {
   const [title, setTitle] = useState('');
   const [longitude, setLongitude] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [description, setDescription] = useState('');
+  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken");
+  const tokenDecoded = jwtDecode(token);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -30,6 +34,7 @@ const AddLegend2 = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
+      userId:userData.id,
       name: title,
       description: description,
       longitude: longitude,
@@ -82,7 +87,23 @@ const AddLegend2 = ({ onSubmit }) => {
     return () => map.remove();
   }, []);
 
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:8081/api/user/${tokenDecoded.sub}`);
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error(error.message, error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
   return (
+
     <div align= "center" className="wrapper">
       <h1>Dodaj legendę</h1>
         <form onSubmit={handleSubmit}>

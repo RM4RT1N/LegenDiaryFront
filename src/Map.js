@@ -34,7 +34,11 @@ constructor(props) {
 }
 
 async loadLegends(mapa){
-    fetch('http://localhost:8081/places')
+    fetch('http://localhost:8081/places',{
+        headers:{
+            "Authoziration":`Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    })
     .then(response => response.json())
     .then(data => {
       this.addMarkers(data,mapa)
