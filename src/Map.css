@@ -1,0 +1,7 @@
+.addLegend{
+z-index: 3;
+    display: block;
+    position: fixed;
+    top: 15vh;
+
+}

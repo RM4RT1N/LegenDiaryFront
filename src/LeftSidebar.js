@@ -25,7 +25,6 @@ class LeftSidebar extends React.Component {
         <img src={require("./nav1.png")} alt="Logo" width="50" height="50" />
         <button className='leftSidebarCloseBtn' onClick={this.props.toggleSidebar}>X</button>
         </div>
-        <AddLegend2 />
       </div>
     );
   }

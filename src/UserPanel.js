@@ -24,39 +24,10 @@ export default class UserPanel extends React.Component {
 
 
 
-    componentDidMount() {
-        this.fetchUser();
-    }
-
-    async fetchUser(){
-            try {
-                const response = await fetch(`http://localhost:8081/api/user/${this.tokenDecoded.sub}`);
-                const data = await response.json()
-                    .then((data)=>{
-                        this.setState({
-                            userData:{
-                                "id": data.id,
-                                    "nickname": data.nickname,
-                                    "username": data.username,
-                                    "avatar_image_id": data.avatar_image_id,
-                                    "points": data.points,
-                                    "address_id": data.address_id,
-                                    "places": data.places
-                            }
-                        })
-                        console.log(this.state.userData)
-                    })
-            } catch (error) {
-                console.error(error.message, error);
-            }
-        };
-
-
-
 render() {
 
     return (
-        <div><Navbar/>
+        <div>
     <div className="clmn">
         <video src={vid} autoPlay muted loop/>
     <div className='overlay'></div>

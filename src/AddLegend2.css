@@ -1,48 +1,5 @@
 
-.description {
-    width: 90%;
-    height: 150px;
-    resize: vertical;
-    padding: 10px;
-    font-size: 20px;
-    
-    border-radius: 4px;
-   margin-left: 10px;
-   margin-top: 5px;
-  }
-  
-  .description:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  .subButton{
-    width: 50px;
-    height:40px;
-    
-  }
-  .formAddTitle{
-    width: 90%;
-    height: 50px;
-    resize: vertical;
-    padding: 10px;
-    font-size: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-   margin-left: 10px;
-   margin-top: 5px;
-  }
-  .label{
-    margin-top:20px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    display: block;
-  }
-  .addMapLegend
-  {
-    margin-top:20px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    display: block;
-  }
+.wrapper{
+    position: fixed;
+    top: 15vh;
+}
