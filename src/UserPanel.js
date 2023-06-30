@@ -7,35 +7,22 @@ import jwtDecode from "jwt-decode";
 export default class UserPanel extends React.Component {
     constructor() {
         super();
-        this.token = localStorage.getItem("jwtToken");
-        this.tokenDecoded = jwtDecode(this.token);
-        this.state={
-            userData: {
-                "id": "",
-                "nickname": null,
-                "username": "",
-                "avatar_image_id": null,
-                "points": null,
-                "address_id": null,
-                "places": []
-            }
-            }
         }
 
 
 
 render() {
-
+    console.log(this.props.userData)
     return (
         <div>
     <div className="clmn">
         <video src={vid} autoPlay muted loop/>
     <div className='overlay'></div>
         <div className="user-panel">
-        <h3>User Name : {this.state.userData.username}</h3>
+        <h3>User Name : {this.props.userData.username}</h3>
             <img src={this.avatarUrl} alt="User Avatar" className="avatar" />
             <h3>Account type : User</h3>
-            <p>Email : {this.state.userData.username}</p>
+            <p>Email : {this.props.userData.username}</p>
         </div>
         <div>
        
@@ -49,7 +36,7 @@ render() {
         <div className="user-panel">
             <h3>Odyssey legend</h3>
             <ul>
-                {this.state.userData.places.map((place) => (
+                {this.props.userData.places.map((place) => (
                     <li key={place.id}>{place.name}</li>
                 ))}
             </ul>
@@ -64,4 +51,3 @@ render() {
     </div>
     );
   };}
-  

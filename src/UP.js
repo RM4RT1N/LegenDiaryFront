@@ -1,39 +1,32 @@
 import React from 'react';
 import './UP.css';
-import vid from './video.mp4'
 
-const UP = () => {
-  return (<div>
-    
-    <video src={vid} autoPlay muted loop/>
-    <div className='overlay'></div>
-    <div className='all'>
-    <div className="user-panel">
-      
-        
-      <div className="user-panel-header">
-        <h2 className="user-panel-title">Panel użytkownika</h2>
-      </div>
-      <div className="user-panel-content">
-        <div className="user-info">
-          <img
-            className="user-avatar"
-            src="https://example.com/avatar.jpg"
-            alt="Avatar użytkownika"
-          />
-          <div className="user-details">
-            <h3 className="user-name">John Doe</h3>
-            <p className="user-email">john.doe@example.com</p>
-          </div>
-        </div>
-        <div className="user-actions">
-          <button className="action-button">Edytuj profil</button>
-          <button className="action-button">Zmień hasło</button>
-        </div>
-      </div>
-    </div></div>
-    </div>
-  );
-};
+
+import L from 'leaflet';
+
+class UP extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.mapRef = React.createRef();
+  }
+
+  componentDidMount() {
+    // Tworzenie mapy przy użyciu OpenStreetMap
+    const map = new L.Map(this.mapRef.current);
+
+    // Ustawianie początkowych współrzędnych i powiększenia mapy
+    map.setView([51.505, -0.09], 13);
+
+    // Dodawanie warstwy z mapą OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    }).addTo(map);
+  }
+
+  render() {
+    return <div ref={this.mapRef} style={{ height: '400px' }} />;
+  }
+}
+
 
 export default UP;

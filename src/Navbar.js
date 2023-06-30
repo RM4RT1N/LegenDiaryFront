@@ -76,6 +76,7 @@ class Navbar extends React.Component  {
                   </ul>
                   :
                   <ul className="navbar-list">
+                    <li className={"nav-element"} >{this.props.user.username}</li>
                       <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
                   </ul>
               }
