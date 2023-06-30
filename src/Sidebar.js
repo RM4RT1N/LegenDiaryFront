@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Sidebar.css'
+import Carousel from './Carousel';
 import TextToSpeech from './TextToSpeech';
 export default class SlideDrawer extends React.Component {
    constructor(props) {
@@ -9,22 +10,23 @@ export default class SlideDrawer extends React.Component {
    }
 
    render() {
-       let drawerClasses = 'side-drawer'
-       if(this.props.show) {
+      let drawerClasses = 'side-drawer'
+      if(this.props.show) {
           drawerClasses = 'side-drawer open'
-       }
+      }
    
-       return(
-   
+      return(   
           <div className={drawerClasses}>          
             <button className='sidebarCloseBtn' onClick={this.props.drawerClose}></button>
             <div className='title'>{this.props.title}</div>
+            <div className='imageCarousel'>
+               <Carousel images={this.props.images}/>
+            </div>
             <div className='description'>{this.props.description}</div>
             <div className='TextToSpeech'>
                <TextToSpeech text={this.props.description} />  
             </div>
           </div>
-)
-    }
-    
+      )
+   }
 }

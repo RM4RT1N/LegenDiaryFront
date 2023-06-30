@@ -5,7 +5,7 @@ import MapboxGeocoder from './MapGeocoder';
 import AudioPlayer from 'react-audio-player';
 import MapSearchByKeyword from './MapSearchByKeyword';
 import Navbar from './Navbar';
-import LeftSidebar from './LeftSidebar';
+/* import LeftSidebar from './LeftSidebar'; */
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAP_API_KEY;
@@ -25,6 +25,7 @@ constructor(props) {
         urlRadio:null,
         lngLegend:null,
         latLegend:null,
+        legendId:'',
         title:'',
         description:'',
         sidebarVisible: false
@@ -53,6 +54,20 @@ async loadRadio(){
         console.error('Error occurred while loading radio stations:', error);
         }
 }
+
+async loadImages() {
+  try {
+    const response = await fetch('http://localhost:8081/images');
+    if (!response.ok) {
+      throw new Error('Error fetching images');
+    }
+    const data = await response.json();
+    this.setState({images : data});
+    console.log(this.state.images);
+  } catch (error) {
+    console.error(error.message, error);
+  }
+};
 
 loadPlayer(url){
     this.setState({urlRadio:url})
@@ -114,6 +129,7 @@ addMarkers(data, mapa) {
             this.setState({latLegend:legend.latitude});
             this.setState({lngLegend:legend.longitude});
             this.setState({urlRadio:null});
+            this.setState({legendId:legend.id});
             this.setState({title:legend.name});
             this.setState({description:legend.description});
             this.setState({showPlayer:false});
@@ -124,7 +140,7 @@ addMarkers(data, mapa) {
             });
             });
             pointer.getElement().addEventListener('click',()=>{
-              this.props.toggle(this.state.title,this.state.description);
+              this.props.toggle(this.state.legendId,this.state.title,this.state.description,this.state.images);
             })
             return null;            
     });   
@@ -146,6 +162,8 @@ componentDidMount() {
   })
   
   this.loadRadio();
+  this.loadImages();
+
   const { lng, lat, zoom } = this.state;
   const mapa = new mapboxgl.Map({
     container: this.mapContainer.current,
@@ -271,7 +289,7 @@ render() {
 
     return (
     <div>
-      {this.state.sidebarVisible && <LeftSidebar toggleSidebar={this.toggleSidebar} visible={this.state.sidebarVisible} />}
+      {/* {this.state.sidebarVisible && <LeftSidebar toggleSidebar={this.toggleSidebar} visible={this.state.sidebarVisible} />} */}
       {/* <Navbar toggleSidebar={this.toggleSidebar}/>  */}
         <div className="footer">
         <MapboxGeocoder longitude={this.state.lng} latitude={this.state.lat} />
