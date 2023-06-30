@@ -21,6 +21,7 @@ html {
 }
 .side-drawer.open {
    transform: translateX(0);
+   z-index: 1000
 }
 
 .sidebarCloseBtn{
@@ -46,12 +47,14 @@ html {
    font-size: 20px;
    font-weight: 800;
    text-align: center;
+   z-index: 200;
    padding: 35px 0px 10px 0px;
 }
 
 .description {
    text-indent: 20px;
    padding: 10px; 
+   z-index: 200;
 }
 
 .TextToSpeech {
@@ -63,6 +66,7 @@ html {
    display: flex;
    justify-content: center;
    align-items: center;
+   z-index: 200;
    padding: 12.5px 0px 12.5px 0px;
 /*    margin-top: 15px; */
    margin-bottom: 5px;
@@ -75,6 +79,7 @@ html {
    border: none;   
    height:50px;
    width:50px;
+   z-index: 200;
    margin-right: 5px;
    cursor: pointer;
 }
@@ -88,6 +93,7 @@ html {
    border-radius: 25px;
    width: 50px;
    height: 50px;
+   z-index: 200;
    border: none;
    margin-right: 5px;
    cursor: pointer;
@@ -104,4 +110,5 @@ html {
    width: 30px;
    height: 30px;
    border: none;
+   z-index: 200;
 }

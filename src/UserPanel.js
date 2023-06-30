@@ -4,35 +4,25 @@ import vid from './video.mp4'
 import Navbar from './Navbar';
 import jwtDecode from "jwt-decode";
 
-const UserPanel = ({ username, email, avatarUrl }) => {
-const token = localStorage.getItem("jwtToken");
-const tokenDecoded = jwtDecode(token);
-const [userData, setUserData] = useState({});
+export default class UserPanel extends React.Component {
+    constructor() {
+        super();
+        }
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch(`http://localhost:8081/api/user/${tokenDecoded.sub}`);
-                const data = await response.json();
-                setUserData(data);
-            } catch (error) {
-                console.error(error.message, error);
-            }
-        };
 
-        fetchUser();
-    }, []);
 
+render() {
+    console.log(this.props.userData)
     return (
-        <div><Navbar/>
+        <div>
     <div className="clmn">
         <video src={vid} autoPlay muted loop/>
     <div className='overlay'></div>
         <div className="user-panel">
-        <h3>User Name : {userData.username}</h3>
-            <img src={avatarUrl} alt="User Avatar" className="avatar" />
+        <h3>User Name : {this.props.userData.username}</h3>
+            <img src={this.avatarUrl} alt="User Avatar" className="avatar" />
             <h3>Account type : User</h3>
-            <p>Email : {userData.username}</p>
+            <p>Email : {this.props.userData.username}</p>
         </div>
         <div>
        
@@ -46,8 +36,9 @@ const [userData, setUserData] = useState({});
         <div className="user-panel">
             <h3>Odyssey legend</h3>
             <ul>
-                <li>Smok Wawelski</li>
-                <li>Morderstwo na Mariackiej</li>
+                {this.props.userData.places.map((place) => (
+                    <li key={place.id}>{place.name}</li>
+                ))}
             </ul>
         </div>
         <div className="user-panel">
@@ -59,6 +50,4 @@ const [userData, setUserData] = useState({});
     </div>
     </div>
     );
-  };
-  
-  export default UserPanel;
+  };}

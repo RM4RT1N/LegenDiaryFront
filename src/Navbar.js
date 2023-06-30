@@ -4,9 +4,6 @@ import Register from "./Register";
 import './Navbar.css';
 
 
-
-
-
 class Navbar extends React.Component  {
     constructor() {
         super();
@@ -17,8 +14,6 @@ class Navbar extends React.Component  {
         }
         this.setSearchDistance = this.setSearchDistance.bind(this)
     }
-
-
  handleLoginActive(){
         if (this.state.login){
             this.setState({login:false})
@@ -40,9 +35,29 @@ class Navbar extends React.Component  {
         this.props.setSearchDistance(searchDistance)
     }
     handleLogout() {
-        localStorage.removeItem("jwtToken")
-        window.location.reload()
-    }
+        const token = localStorage.getItem("jwtToken");
+        fetch("http://localhost:8081/api/auth/logout", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token }),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    localStorage.removeItem("jwtToken");
+                    window.location.reload();
+                } else {
+                    throw new Error("Wystąpił błąd podczas wylogowywania");
+                }
+            })
+            .catch((err) => {
+                console.log(err.message, err);
+            });
+    };
+
+
   render() {
 
       return (
@@ -61,6 +76,7 @@ class Navbar extends React.Component  {
                   </ul>
                   :
                   <ul className="navbar-list">
+                    <li className={"nav-element"} >{this.props.user.username}</li>
                       <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
                   </ul>
               }

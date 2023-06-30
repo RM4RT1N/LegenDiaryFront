@@ -11,7 +11,7 @@ export default function Register(){
             email:'',
             password:'',
             repeatPassword:'',
-            userType:''
+            userType:'USER'
 
         },
         validationSchema:Yup.object({
@@ -25,11 +25,10 @@ export default function Register(){
         }),
         onSubmit:(values)=>{
             const data = {
-                email: values.email,
+                username: values.email,
                 password: values.password,
                 role:values.userType
             }
-            console.log(data)
             fetch('http://localhost:8081/api/auth/register',{
                 method:'POST',
                 headers:{
@@ -96,8 +95,8 @@ export default function Register(){
                     onBlur={formik.handleBlur}
                     value={formik.values.userType}
                 >
-                    <option value="1">Użytkownik prywatny</option>
-                    <option value="2">Firma</option>
+                    <option value="USER">Użytkownik prywatny</option>
+                    <option value="CORPORATE_USER">Firma</option>
                 </select>
                 {formik.touched.userType && formik.errors.userType ? (
                     <p className={'errorMsg'}>{formik.errors.userType}</p>
