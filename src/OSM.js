@@ -30,7 +30,11 @@ class OpenMap extends React.PureComponent {
 
   async loadLegends() {
     try {
-      const response = await fetch('http://localhost:8081/places');
+      const response = await fetch('http://localhost:8081/places',{
+        headers:{
+          "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`
+        }
+      });
       const data = await response.json();
       this.addMarkers(data, this.state.mapa);
       this.setState({ legends: data });
@@ -115,7 +119,6 @@ class OpenMap extends React.PureComponent {
           
           
         this.loadRadioStations(mapa);
-        console.log(this.state.markers);
         mapa.flyTo([legend.latitude, legend.longitude], 12);
       });
       

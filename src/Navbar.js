@@ -58,32 +58,32 @@ class Navbar extends React.Component  {
     };
 
 
-  render() {
+    render() {
 
-      return (
-          <nav className="navbar">
-              {!this.props.user?
-                  <ul className="navbar-list">
-                  {this.state.login?
-                      <Login/>:
-                      <li className={"nav-element"}
-                          onClick={this.handleLoginActive.bind(this)}>
-                          Legend-in</li>}
-                  {this.state.register?
-                      <Register/>:
-                      <li className={"nav-element"}
-                          onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>}
-                  </ul>
-                  :
-                  <ul className="navbar-list">
-                    <li className={"nav-element"} >{this.props.user.username}</li>
-                      <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
-                  </ul>
-              }
+        return (
+            <nav className="navbar">
+                {!this.props.user?
+                    <ul className="navbar-list">
+                        {this.state.login?
+                            <Login/>:
+                            <li className={"nav-element"}
+                                onClick={this.handleLoginActive.bind(this)}>
+                                Legend-in</li>}
+                        {this.state.register?
+                            <Register/>:
+                            <li className={"nav-element"}
+                                onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>}
+                    </ul>
+                    :
+                    <ul className="navbar-list">
+                        <li className={"nav-element"} onClick={this.props.userPanel} >{this.props.user.username}</li>
+                        <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
+                    </ul>
+                }
 
-          </nav>
-      );
-  };
+            </nav>
+        );
+    };
 
 }
 

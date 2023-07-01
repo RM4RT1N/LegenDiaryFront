@@ -32,8 +32,8 @@ export default class App extends React.Component {
    },
   addLegendOpen: false,
   userPanelOpen:false,
-  longitude:null,
-  latitude:null
+  longitude:19.8056,
+  latitude:51.747
   }
   
 drawerToggleClickHandler = (title,description) => {
@@ -108,54 +108,28 @@ decodeToken(token){
   }else {
       return null;
   }
-
 }
-// setUser(username){
-//       this.setState({
-//           user:username
-//       })
-// }
+    userPanelChangeState= () => {
+        this.setState({
+            userPanelOpen:!this.state.userPanelOpen
+        })
 
-  // render(){
-  //   const { sidebarVisible,drawerOpen } = this.state;
-  //     const jwtToken = localStorage.getItem("jwtToken")
-  //     if (jwtToken) {
-  //         return (
-  //             <div onLoad={this.getUserFromJwtTokenIntoState(jwtToken)}>
-  //             <div>
-  //                 <Navbar user={this.state.user}/>
-  //                 <LeftSidebar toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
-  //                 <Sidebar drawerClose={this.drawerHandleClose} show={drawerOpen} title={this.state.title} description={this.state.description}/>
-  //                 {/* {this.state.user ? */}
-  //                 <OSM sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/> 
-  //                 {/* <h1>Hello !</h1>} */}
-  //              </div>
-  //              </div>)
-  //      }else {
-  //         return (
-  //             <div>
-  //                 <Navbar/>
-  //                 <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description}/>
-  //                 {this.state.user ?
-  //                     <Map toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/> :
-  //                     <h1>Hello !</h1>}
-  //             </div>)
-  //     }
+    }
 
-  //  }
   render(){
     const { sidebarVisible} = this.state;
     if (this.token) {
         this.fetchUser()
         return (
             <div>
-                <Navbar user={this.state.userData}/>
+                <Navbar user={this.state.userData} userPanel={this.userPanelChangeState}/>
                 {this.state.userData.id!=null ?
                     <>
                         <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description} drawerClose={this.drawerClose} />
-                        <LeftSidebar  toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
-                        <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>
-                        <UserPanel show={this.state.userPanelOpen}  userData={this.state.userData}/>
+                        <LeftSidebar  userID={this.state.userData.id} latitude={this.state.latitude} longitude={this.state.longitude} toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
+                        {this.state.userPanelOpen?<UserPanel show={this.state.userPanelOpen}  userData={this.state.userData}/>
+                            :
+                            <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>}
                     </>:
 
                     <h1>Hello !</h1>}
