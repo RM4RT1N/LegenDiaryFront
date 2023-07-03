@@ -21,7 +21,8 @@ class OpenMap extends React.PureComponent {
       latLegend: null,
       title: '',
       description: '',
-      mapa: null
+      mapa: null,
+      images:[]
     };
     this.mapContainer = React.createRef();
     this.playerContainer = React.createRef();
@@ -38,12 +39,26 @@ class OpenMap extends React.PureComponent {
       console.error('Error occurred while loading legends:', error);
     }
   }
-
+  async loadImages() {
+    try {
+      const response = await fetch('http://localhost:8081/images');
+      if (!response.ok) {
+        throw new Error('Error fetching images');
+      }
+      const data = await response.json();
+      this.setState({images : data});
+      console.log(this.state.images);
+    } catch (error) {
+      console.error(error.message, error);
+    }
+  };
+  
   async loadRadio() {
     try {
       const response = await fetch('https://at1.api.radio-browser.info/json/stations/search?limit=1000&countrycode=PL&hidebroken=true&order=votes&reverse=true');
       const data = await response.json();
-      this.setState({ radioStations: data });
+      const filteredStations = data.filter(station => station.geo_lat !== null);
+      this.setState({ radioStations: filteredStations });
     } catch (error) {
       console.error('Error occurred while loading radio stations:', error);
     }
@@ -96,6 +111,7 @@ class OpenMap extends React.PureComponent {
       const marker = L.marker([legend.latitude, legend.longitude], markerOptions)
         .bindPopup(popup)
         .addTo(mapa);
+      marker.osmVariable = legend.id;
       marker.getElement().classList.add('colorLegendMarker');
       marker.getElement().addEventListener('click', () => {
 
@@ -108,14 +124,14 @@ class OpenMap extends React.PureComponent {
         this.state.markers.forEach((radioMarker) => {
           if (radioMarker!== undefined && radioMarker!= null){
               mapa.removeLayer(radioMarker);
-            this.setState({ markers: []});
-          
+                     
           }
         });
-          
-          
+        this.setState({ markers: []});
         this.loadRadioStations(mapa);
-        console.log(this.state.markers);
+          
+        
+    
         mapa.flyTo([legend.latitude, legend.longitude], 12);
       });
       
@@ -124,7 +140,8 @@ class OpenMap extends React.PureComponent {
     
 
       marker.getElement().addEventListener('click', () => {
-        this.props.toggle(this.state.title, this.state.description);
+        const filteredImages = this.state.images.filter(image => image.place_id === marker.osmVariable);
+        this.props.toggle(this.state.title, this.state.description,filteredImages);
       });
 
       return null;
@@ -142,6 +159,7 @@ class OpenMap extends React.PureComponent {
     });
 
     this.loadRadio();
+    this.loadImages();
 
     this.loadLegends();
 

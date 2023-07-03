@@ -5,8 +5,8 @@ import './Navbar.css';
 
 
 class Navbar extends React.Component  {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             search:false,
             login:false,
@@ -76,7 +76,7 @@ class Navbar extends React.Component  {
                   </ul>
                   :
                   <ul className="navbar-list">
-                    <li className={"nav-element"} >{this.props.user.username}</li>
+                    <li className={"nav-element"} onClick={this.props.userPanel} >{this.props.user.username}</li>
                       <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
                   </ul>
               }

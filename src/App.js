@@ -8,6 +8,7 @@ import OSM from './OSM'
 import LeftSidebar from './LeftSidebar';
 import jwtDecode from "jwt-decode";
 import UserPanel from "./UserPanel";
+import Welcome from "./Welcome"
 
 
 export default class App extends React.Component {
@@ -19,7 +20,7 @@ export default class App extends React.Component {
   state = { drawerOpen: false,
   title:'',
   description:'',
-  // user:null,
+  images:[],
   sidebarVisible:false,
   userData: {
     "id": null,
@@ -35,14 +36,26 @@ export default class App extends React.Component {
   longitude:null,
   latitude:null
   }
+
   
-drawerToggleClickHandler = (title,description) => {
-   this.setState({
+drawerToggleClickHandler = (title,description,images) => {
+  if(this.state.title===title && this.state.description===description)
+   {this.setState({
      drawerOpen: !this.state.drawerOpen,
      title:title,
-     description:description
+     description:description,
+     images:images
    })
  }
+ else
+ {this.setState({
+  drawerOpen: true,
+  title:title,
+  description:description,
+  images:images
+})
+}
+}
  drawerHandleClose = () => {
   this.setState({
     drawerOpen: false
@@ -72,6 +85,12 @@ setCords(latitude,longitude){
       longitude:longitude
 
   })
+}
+userPanelChangeState= () => {
+  this.setState({
+    userPanelOpen:!this.state.userPanelOpen
+  })
+
 }
 async fetchUser(){
   if (this.state.userData.id==null){
@@ -144,30 +163,32 @@ decodeToken(token){
 
   //  }
   render(){
-    const { sidebarVisible} = this.state;
+    const { sidebarVisible,longitude,latitude} = this.state;
     if (this.token) {
         this.fetchUser()
         return (
             <div>
-                <Navbar user={this.state.userData}/>
+                <Navbar user={this.state.userData} userPanel={this.userPanelChangeState}/>
                 {this.state.userData.id!=null ?
                     <>
-                        <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description} drawerClose={this.drawerClose} />
-                        <LeftSidebar  toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
-                        <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>
-                        <UserPanel show={this.state.userPanelOpen}  userData={this.state.userData}/>
+                        <Sidebar images={this.state.images} show={this.state.drawerOpen} title={this.state.title} description={this.state.description} drawerClose={this.drawerClose} />
+                        <LeftSidebar  userID={this.state.userData.id} latitude={latitude} longitude={longitude} toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
+                        
+                        {this.state.userPanelOpen?<UserPanel show={this.state.userPanelOpen}  userData={this.state.userData}/>
+                        :
+                        <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>}
                     </>:
 
-                    <h1>Hello !</h1>}
+                    <Welcome/>}
             </div>)
     }else {
         return (
             <div>
                 <Navbar/>
-                <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description}/>
+                {/* <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description}/> */}
                 {this.state.user ?
                     <OSM sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/> :
-                    <h1>Hello !</h1>}
+                    <Welcome/>}
             </div>)
     }
 

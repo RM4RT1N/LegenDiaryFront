@@ -1,48 +1,57 @@
 
 .description {
-    width: 90%;
-    height: 150px;
-    resize: vertical;
-    padding: 10px;
+  width: 90%;
+  height: 150px;
+  resize: vertical;
+  font-size: 20px;
+  border-radius: 4px;
+ margin-left: 10px;
+ margin-top: 5px;
+}
+
+.description:focus {
+  outline: none;
+  border-color: #007bff;
+}
+.subButton{
+    width: 25%;
+    height:fit-content;
+    padding: 15px 10px 15px 10px;
+    background-color: #1db954;
+    border-radius: 500px;
+    cursor: pointer;
+    color: white;
     font-size: 20px;
-    
-    border-radius: 4px;
-   margin-left: 10px;
-   margin-top: 5px;
-  }
+
   
-  .description:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  .subButton{
-    width: 50px;
-    height:40px;
-    
-  }
-  .formAddTitle{
-    width: 90%;
-    height: 50px;
-    resize: vertical;
-    padding: 10px;
-    font-size: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-   margin-left: 10px;
-   margin-top: 5px;
-  }
-  .label{
-    margin-top:10px;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    display: block;
-  }
-  .addMapLegend
-  {
-    margin-top:20px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    display: block;
-  }
+}
+.formAddTitle{
+  width: 90%;
+  height: 50px;
+  resize: vertical;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+ margin-left: 10px;
+ margin-top: 5px;
+}
+.cord{
+  padding: 0;
+  width: 39%;
+  background-color: #333;
+  color: white;
+  margin: 0 3% 0 3%;
+  font-size: 20px;
+  border-radius: 4px;
+  border: none;
+}
+.cord:focus{
+  border: none;
+
+}
+label {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 30px;
+}

@@ -12,7 +12,7 @@ export default class UserPanel extends React.Component {
 
 
 render() {
-    console.log(this.props.userData)
+
     return (
         <div>
     <div className="clmn">
@@ -21,7 +21,7 @@ render() {
         <div className="user-panel">
         <h3>User Name : {this.props.userData.username}</h3>
             <img src={this.avatarUrl} alt="User Avatar" className="avatar" />
-            <h3>Account type : User</h3>
+            <h3>Account type : USER</h3>
             <p>Email : {this.props.userData.username}</p>
         </div>
         <div>
@@ -43,7 +43,7 @@ render() {
         </div>
         <div className="user-panel">
             <h3>Points</h3>
-            <h3> 37 points</h3>
+            <h3> {this.props.userData.points} points</h3>
             <h3> Next level : 50 points</h3>
 
         </div>

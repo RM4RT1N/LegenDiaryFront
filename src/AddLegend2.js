@@ -1,97 +1,129 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import './AddLegend2.css';
-import L from 'leaflet';
-
-const AddLegend2 = ({ onSubmit }) => {
-const [title, setTitle] = useState('');
-const [longitude, setLongitude] = useState(null);
-const [latitude, setLatitude] = useState(null);
-const [description, setDescription] = useState('');
-const navigate = useNavigate();
-const mapContainer = useRef(null);
-// 
-const handleTitleChange = (e) => {
-setTitle(e.target.value);
-};
-
-const handleMapMove = (map, marker) => {
-const lng = map.getCenter().lng.toFixed(4);
-const lat = map.getCenter().lat.toFixed(4);
-setLongitude(lng);
-setLatitude(lat);
-marker.setLatLng([lat, lng]);
-};
-
-const handleDescriptionChange = (e) => {
-setDescription(e.target.value);
-};
-
-const handleSubmit = (e) => {
-e.preventDefault();
-const data = {
-name: title,
-description: description,
-longitude: longitude,
-latitude: latitude,
-category_id: 1,
-};
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 
-fetch('http://localhost:8081/api/add-legend', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(data),
-})
-  .then((response) => {
-    if (response.ok) {
-      if (onSubmit) {
-        onSubmit();
-      }
-      navigate('/');
-      window.location.reload(); // Odświeżenie strony po kliknięciu "Submit"
-    } else {
-      console.log('not ok');
-    }
-  })
-  .catch((error) => {
-    console.error('Błąd podczas wysyłania danych do API:', error);
-  });
-};
+const AddLegend2 = ({ userID, latitude, longitude }) => {
 
-useEffect(() => {
-const map = L.map(mapContainer.current).setView([51.7470, 19.8056], 6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-const marker = L.marker([52, 18]).addTo(map);
+    const formik = useFormik({
+        initialValues: {
+            userId: userID,
+            category_id: 1,
+            longitude:longitude,
+            latitude:latitude,
+            description: '',
+            name: '',
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().min(3, "Tytuł musi mieć minimum 3 znaki").required("Pole Tytuł jest wymagane"),
+            description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane")
+        }),
+        
+        onSubmit: (values) => {
+            formik.setValues((prevValues) => ({
+                ...prevValues,
+                longitude: longitude
+            }));
+            formik.setValues((prevValues) => ({
+                ...prevValues,
+                latitude: latitude
+            }));
+            console.log(values);
 
+            
 
+            fetch("http://localhost:8081/api/add-legend",{
+                method:"POST",
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`,
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(values)
+            }).then((response)=>{
+                if (response.ok){
+                    // window.location.reload()
+                    console.log(values);
 
+                    
+                }else {
+                    console.log("Coś nie tak")
+                }
+            }).catch((error)=>{
+                console.log(error.message, error)
+            })
 
-map.on('move', function (event) {
-  handleMapMove(map, marker);
-});
+        }
+    });
 
-return () => map.remove();
-}, []);
+    const handleLatitudeChange = (event) => {
+        const { value } = event.target;
+        formik.setValues((prevValues) => ({
+          ...prevValues,
+          latitude: value,
+        }));
+      };
+      
+      const handleLongitudeChange = (event) => {
+        const { value } = event.target;
+        formik.setValues((prevValues) => ({
+          ...prevValues,
+          longitude: value,
+        }));
+      };
 
-return (
-<div align="center" className="wrapper">
-<h1>Dodaj legendę</h1>
-<form onSubmit={handleSubmit}>
-<div>
-<label className="label" htmlFor="title">Tytuł:</label>
-<input className="formAddTitle" type="text" id="title" value={title} onChange={handleTitleChange} /><br />
-<label className="label" htmlFor="description">Opis legendy:</label>
-<textarea className="description" type="text" id="description" value={description} onChange={handleDescriptionChange} />
-</div>
-<div className="addMapLegend" id="map" style={{ width: '350px', height: '350px' }} ref={mapContainer}></div>
-<p>Współrzędne: {latitude},{longitude} </p>
-<button className="subButton" type="submit">Dodaj</button>
-</form>
-</div>
-);
+    return (
+    
+        
+        <div align="center" className="wrapper">
+            <h1>Dodaj legendę</h1>
+            <form onSubmit={formik.handleSubmit}>
+                <div>
+                    <input
+                        id={'name'}
+                        name={'name'}
+                        type={'text'}
+                        placeholder={"Tytuł"}
+                        className={"formAddTitle"}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.name}
+                    />
+                    {formik.touched.name && formik.errors.name ? <p className={'errorMsg'}>{formik.errors.name}</p> : null}
+                </div>
+                <div>
+                    <textarea
+                        id={'description'}
+                        name={'description'}
+                        placeholder={"Opis legendy"}
+                        className={"description"}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.description}
+                    />
+                    {formik.touched.description && formik.errors.description ? <p className={'errorMsg'}>{formik.errors.description}</p> : null}
+                </div>
+                <label>Koordynaty:</label>
+                <div>
+                    <input
+                        id={"latitude"}
+                        name={"latitude"}
+                        className={'cord'}
+                        onChange={handleLatitudeChange}
+                        value={latitude}
+                    />
+                    <input
+                        id={"longitude"}
+                        name={"longitude"}
+                        className={'cord'}
+                        onChange={handleLongitudeChange}
+                        value={longitude}
+                    />
+                </div>
+                <button className={"subButton"} type={"submit"}> Zapisz </button>
+            </form>
+        </div>
+    );
 };
 
 export default AddLegend2;
