@@ -8,6 +8,7 @@ import OSM from './OSM'
 import LeftSidebar from './LeftSidebar';
 import jwtDecode from "jwt-decode";
 import UserPanel from "./UserPanel";
+import Welcome from "./Welcome";
 
 
 export default class App extends React.Component {
@@ -95,14 +96,15 @@ async fetchUser(){
       console.error(error.message, error);
   }
 }}
-getUserFromJwtTokenIntoState(jwtToken){
-    const tokenDecoded = jwtDecode(jwtToken)
-    if (!this.state.user) {
-        this.setUser(tokenDecoded.sub)
-    }
-}
+// getUserFromJwtTokenIntoState(jwtToken){
+//     const tokenDecoded = jwtDecode(jwtToken)
+//     if (!this.state.user) {
+//         this.setUser(tokenDecoded.sub)
+//     }
+// }
 decodeToken(token){
-  if (this.token){
+  if (token){
+      console.log(token)
       let decoedToken=jwtDecode(token)
       return decoedToken.sub
   }else {
@@ -131,8 +133,7 @@ decodeToken(token){
                             :
                             <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>}
                     </>:
-
-                    <h1>Hello !</h1>}
+                    <Welcome/>}
             </div>)
     }else {
         return (
@@ -141,7 +142,7 @@ decodeToken(token){
                 <Sidebar show={this.state.drawerOpen} title={this.state.title} description={this.state.description}/>
                 {this.state.user ?
                     <OSM sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/> :
-                    <h1>Hello !</h1>}
+                    <Welcome/>}
             </div>)
     }
 

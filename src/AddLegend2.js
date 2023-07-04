@@ -8,10 +8,6 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
 
     const formik = useFormik({
         initialValues: {
-            userId: userID,
-            category_id: 1,
-            longitude: longitude,
-            latitude: latitude,
             description: '',
             name: '',
         },
@@ -20,17 +16,25 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
             description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane")
         }),
         onSubmit: (values) => {
-
+            const data = {
+                userId:userID,
+                category_id: 1,
+                latitude:latitude,
+                longitude:longitude,
+                description: values.description,
+                name: values.name
+            }
             fetch("http://localhost:8081/api/add-legend",{
                 method:"POST",
                 headers:{
                     "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`,
                     "Content-type":"application/json"
                 },
-                body:JSON.stringify(values)
+                body:JSON.stringify(data)
             }).then((response)=>{
                 if (response.ok){
-                    window.location.reload()
+                    // window.location.reload()
+                    console.log(data)
                 }else {
                     console.log("Coś nie tak")
                 }
@@ -41,23 +45,6 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
         }
     });
 
-    const handleLatitudeChange = (event) => {
-        if (latitude !== formik.values.latitude) {
-            formik.setValues({
-                ...formik.values,
-                latitude: event.target.value
-            });
-        }
-    };
-
-    const handleLongitudeChange = (event) => {
-        if (longitude !== formik.values.longitude) {
-            formik.setValues({
-                ...formik.values,
-                longitude: event.target.value
-            });
-        }
-    };
 
     return (
         <div align="center" className="wrapper">
@@ -94,14 +81,14 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
                         id={"latitude"}
                         name={"latitude"}
                         className={'cord'}
-                        onChange={handleLatitudeChange}
+                        readOnly={true}
                         value={latitude}
                     />
                     <input
                         id={"longitude"}
                         name={"longitude"}
                         className={'cord'}
-                        onChange={handleLongitudeChange}
+                        readOnly={true}
                         value={longitude}
                     />
                 </div>
