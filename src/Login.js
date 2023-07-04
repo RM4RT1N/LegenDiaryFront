@@ -31,7 +31,8 @@ export default function Login(){
                 .then(data => {
                     const accessToken = data.accessToken
                     if (data.accessToken===undefined){
-                        formik.setFieldError("password", "Podaj prawidłowe hasło!")
+                        formik.setFieldError("email", "Nieprawidłowe dane!")
+                        formik.setFieldError("password", "Nieprawidłowe dane!")
                     }else {
                         localStorage.setItem("jwtToken", accessToken)
                         window.location.reload()
