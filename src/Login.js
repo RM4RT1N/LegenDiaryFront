@@ -4,6 +4,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 
 export default function Login(){
+    const regex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     const formik = useFormik({
         initialValues:{
             email:'',
@@ -11,7 +12,9 @@ export default function Login(){
         },
         validationSchema:Yup.object({
             email:Yup.string().email("Podaj prawidłowy email").min(3, 'Email musi mieć najmniej 3 znaki').required('Pole email jest wymagane'),
-            password:Yup.string().required('Musisz podać hasło')
+            password:Yup.string().required('Musisz podać hasło').
+            min(8, "Hasło musi mieć conajmniej 8 znaków").
+            matches(regex,{message:'Stwórz silniejsze hasło'}),
         }),
         onSubmit:(values)=>{
             const data = {
@@ -27,8 +30,12 @@ export default function Login(){
             }).then((response => response.json()
                 .then(data => {
                     const accessToken = data.accessToken
-                    localStorage.setItem("jwtToken", accessToken)
-                    window.location.reload()
+                    if (data.accessToken===undefined){
+                        formik.setFieldError("password", "Podaj prawidłowe hasło!")
+                    }else {
+                        localStorage.setItem("jwtToken", accessToken)
+                        window.location.reload()
+                    }
                 }))).catch((err =>{
                     console.log(err.message, err)
             }))
