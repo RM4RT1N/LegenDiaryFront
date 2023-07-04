@@ -3,13 +3,32 @@ import './UserPanel.css'
 import vid from './video.mp4'
 import Navbar from './Navbar';
 import jwtDecode from "jwt-decode";
+import Edit from "./Edit"
 
 export default class UserPanel extends React.Component {
     constructor() {
         super();
+        this.state={
+            editLegend:false,
+            idLegend:null
+        }
         }
 
+handleEditLegend(id){
+    if(this.state.editLegend){
+        this.setState({
+            editLegend:false,
+            idLegend:null
+        })
+    }
+    else{
+    this.setState({
+        editLegend:true,
+        idLegend:id
+    })
+    }
 
+}
 
 render() {
 
@@ -37,7 +56,11 @@ render() {
             <h3>Odyssey legend</h3>
             <ul>
                 {this.props.userData.places.map((place) => (
-                    <li key={place.id}>{place.name}</li>
+                    <li key={place.id}>{place.name}
+                    <a href="#" onClick={() => this.handleEditLegend(place.id)}>
+                    Edit
+                    </a>
+                    </li>
                 ))}
             </ul>
         </div>
@@ -48,6 +71,7 @@ render() {
 
         </div>
     </div>
+    {this.state.editLegend?<Edit/>:null}
     </div>
     );
   };}

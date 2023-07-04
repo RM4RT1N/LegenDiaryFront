@@ -11,8 +11,9 @@ class OpenMap extends React.PureComponent {
     this.state = {
       lng: 19.8056,
       lat: 51.7470,
-      zoom: 6,
+      zoom: 2,
       legends: null,
+      filteredLegends:[],
       markers: [],
       radioStations: [],
       showPlayer: false,
@@ -29,7 +30,7 @@ class OpenMap extends React.PureComponent {
     this.handleMapMove = this.handleMapMove.bind(this);
   }
 
-  async loadLegends() {
+  async loadAllLegends() {
     try {
       const response = await fetch('http://localhost:8081/places');
       const data = await response.json();
@@ -47,7 +48,6 @@ class OpenMap extends React.PureComponent {
       }
       const data = await response.json();
       this.setState({images : data});
-      console.log(this.state.images);
     } catch (error) {
       console.error(error.message, error);
     }
@@ -97,8 +97,19 @@ class OpenMap extends React.PureComponent {
   }
 
   addMarkers(data, mapa) {
-    data.map((legend) => {
-      const popupContent = `<h3>${legend.name}</h3>`;
+    
+    this.state.filteredLegends.forEach((marker) => {
+      if(marker!=null && marker!=undefined){
+      mapa.removeLayer(marker);}
+    })
+    this.setState({ filteredMarkers: []});
+   
+    
+    
+
+    const filteredMarkers = data.map((legend) => {
+      if(this.isPlaceInRange(this.state.lat,this.state.lng,legend.latitude,legend.longitude,70)) 
+      {const popupContent = `<h3>${legend.name}</h3>`;
       const popupOptions = {
         className: 'pop-up'
       };
@@ -114,7 +125,6 @@ class OpenMap extends React.PureComponent {
       marker.osmVariable = legend.id;
       marker.getElement().classList.add('colorLegendMarker');
       marker.getElement().addEventListener('click', () => {
-
         this.setState({ latLegend: legend.latitude });
         this.setState({ lngLegend: legend.longitude });
         this.setState({ urlRadio: null });
@@ -144,38 +154,57 @@ class OpenMap extends React.PureComponent {
         this.props.toggle(this.state.title, this.state.description,filteredImages);
       });
 
-      return null;
+      return marker;}
+
+      
     });
+    this.setState({ filteredLegends: filteredMarkers });
   }
+
+  
   
   componentDidMount() {
+    this.loadAllLegends();
     const zoomOutBtn = document.getElementById("zoomOutBtn")
     zoomOutBtn.addEventListener("click", () => {
       this.state.mapa.setView([
         51.7470,19.8056],
         6
       );
-
     });
+    const startBtn = document.getElementById("startBtn");
+startBtn.addEventListener("click", () => {
+  this.state.mapa.setView([51.7470, 19.8056], 6);
+  startBtn.style.display = "none";
+});
 
     this.loadRadio();
     this.loadImages();
 
-    this.loadLegends();
+    
 
     const map = L.map(this.mapContainer.current).setView([this.state.lat, this.state.lng], this.state.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     this.setState({ mapa: map });
-    
+  
+
+
+this.setState({ mapa: map });
+
+
     const marker = L.marker([this.state.lat, this.state.lng]).addTo(map);
     marker.getElement().classList.add('colorCenterMarker');
     map.on('move', (event) => {
       this.handleMapMove(map, marker);
+      this.addMarkers(this.state.legends,map);
       this.setState({
         zoom: map.getZoom(),
       });
     });
+   
   }
+  
+  
   
   handleMapMove(map, marker) {
     const lng = map.getCenter().lng.toFixed(4);
@@ -256,9 +285,9 @@ render() {
         Longitude: {this.state.lng} | Latitude: {this.state.lat} | 
         <Weather latitude={this.state.lat} longitude={this.state.lng} />
       </div>
-      
       <div>
         <div ref={this.mapContainer} className="map-OSM-container"></div>
+        <button  id="startBtn" className="show" >Zaczynamy</button>
         <button  id="zoomOutBtn" className={this.state.zoom>6?'zoomOutBtn show' : 'zoomOutBtn'} >Zoom Out</button>
         <MapSearchByKeyword legends={this.state.legends} flyToMarker={this.flyToMarker} />
       </div>

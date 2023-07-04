@@ -8,10 +8,6 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
 
     const formik = useFormik({
         initialValues: {
-            userId: userID,
-            category_id: 1,
-            longitude:longitude,
-            latitude:latitude,
             description: '',
             name: '',
         },
@@ -19,33 +15,25 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
             name: Yup.string().min(3, "Tytuł musi mieć minimum 3 znaki").required("Pole Tytuł jest wymagane"),
             description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane")
         }),
-        
         onSubmit: (values) => {
-            formik.setValues((prevValues) => ({
-                ...prevValues,
-                longitude: longitude
-            }));
-            formik.setValues((prevValues) => ({
-                ...prevValues,
-                latitude: latitude
-            }));
-            console.log(values);
-
-            
-
+            const data = {
+                userId:userID,
+                category_id: 1,
+                latitude:latitude,
+                longitude:longitude,
+                description: values.description,
+                name: values.name
+            }
             fetch("http://localhost:8081/api/add-legend",{
                 method:"POST",
                 headers:{
                     "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`,
                     "Content-type":"application/json"
                 },
-                body:JSON.stringify(values)
+                body:JSON.stringify(data)
             }).then((response)=>{
                 if (response.ok){
-                    // window.location.reload()
-                    console.log(values);
-
-                    
+                    window.location.reload()
                 }else {
                     console.log("Coś nie tak")
                 }
@@ -56,25 +44,8 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
         }
     });
 
-    const handleLatitudeChange = (event) => {
-        const { value } = event.target;
-        formik.setValues((prevValues) => ({
-          ...prevValues,
-          latitude: value,
-        }));
-      };
-      
-      const handleLongitudeChange = (event) => {
-        const { value } = event.target;
-        formik.setValues((prevValues) => ({
-          ...prevValues,
-          longitude: value,
-        }));
-      };
 
     return (
-    
-        
         <div align="center" className="wrapper">
             <h1>Dodaj legendę</h1>
             <form onSubmit={formik.handleSubmit}>
@@ -109,14 +80,14 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
                         id={"latitude"}
                         name={"latitude"}
                         className={'cord'}
-                        onChange={handleLatitudeChange}
+                        readOnly={true}
                         value={latitude}
                     />
                     <input
                         id={"longitude"}
                         name={"longitude"}
                         className={'cord'}
-                        onChange={handleLongitudeChange}
+                        readOnly={true}
                         value={longitude}
                     />
                 </div>
