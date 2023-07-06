@@ -5,6 +5,8 @@ import MapboxGeocoder from './MapGeocoder';
 import AudioPlayer from 'react-audio-player';
 import MapSearchByKeyword from './MapSearchByKeyword';
 import LeftSidebar from './LeftSidebar';
+import AddLegend2 from "./AddLegend2";
+import "./Map.css"
 
 
 mapboxgl.accessToken = process.env.REACT_APP_MAP_API_KEY;
@@ -26,7 +28,8 @@ constructor(props) {
         latLegend:null,
         title:'',
         description:'',
-        sidebarVisible: false
+        sidebarVisible: false,
+        addLegendVisible:false
     };   
 
     this.mapContainer = React.createRef();
@@ -34,7 +37,11 @@ constructor(props) {
 }
 
 async loadLegends(mapa){
-    fetch('http://localhost:8081/places')
+    fetch('http://localhost:8081/places',{
+        headers:{
+            "Authoziration":`Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    })
     .then(response => response.json())
     .then(data => {
       this.addMarkers(data,mapa)
@@ -264,21 +271,26 @@ toggleSidebar = () => {
     sidebarVisible: !prevState.sidebarVisible
   }));
 };
+    toggleAddLegend = () => {
+        this.setState((prevState) => ({
+            addLegendsVisible: !prevState.addLegendsVisible
+        }));
+    };
 
 render() {    
 
     return (
     <div>
-      {this.state.sidebarVisible && <LeftSidebar toggleSidebar={this.toggleSidebar} visible={this.state.sidebarVisible} />}
-      {/* <Navbar toggleSidebar={this.toggleSidebar}/>  */}
+        {this.state.sidebarVisible && <LeftSidebar toggleSidebar={this.toggleSidebar} visible={this.state.sidebarVisible} />}
         <div className="footer">
-        <MapboxGeocoder longitude={this.state.lng} latitude={this.state.lat} />
+        <MapboxGeocoder  longitude={this.state.lng} latitude={this.state.lat} />
         Longitude: {this.state.lng} | Latitude: {this.state.lat}  |<Weather latitude={this.state.lat} longitude={this.state.lng} /> 
         </div>
+
         <div>
             <div ref={this.mapContainer} className="map-container"></div>
             <button className='zoomOutBtn' id="zoomOutBtn"  style={{ visibility: this.state.zoom > 6? 'visible': 'hidden'}} >Zoom Out</button>
-            
+            {this.state.addLegendVisible ? <AddLegend2 toggleAddLegend={this.toggleAddLegend} visible={this.state.addLegendsVisible}/>:<div className={'addLegend'}>Add Legend</div>}
             <MapSearchByKeyword legends={this.state.legends} flyToMarker={this.flyToMarker}/>
         </div>
         
