@@ -4,6 +4,7 @@ import AudioPlayer from 'react-audio-player';
 import MapSearchByKeyword from './MapSearchByKeyword';
 import L from 'leaflet';
 import './OSM.css';
+import Carousel from './Carousel.js';
 
 class OpenMap extends React.PureComponent {
   constructor(props) {
@@ -173,15 +174,13 @@ class OpenMap extends React.PureComponent {
       );
     });
     const startBtn = document.getElementById("startBtn");
-startBtn.addEventListener("click", () => {
-  this.state.mapa.setView([51.7470, 19.8056], 6);
-  startBtn.style.display = "none";
+    startBtn.addEventListener("click", () => {
+    this.state.mapa.setView([51.7470, 19.8056], 6);
+    startBtn.style.display = "none";
 });
 
     this.loadRadio();
     this.loadImages();
-
-    
 
     const map = L.map(this.mapContainer.current).setView([this.state.lat, this.state.lng], this.state.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -189,7 +188,7 @@ startBtn.addEventListener("click", () => {
   
 
 
-this.setState({ mapa: map });
+    this.setState({ mapa: map });
 
 
     const marker = L.marker([this.state.lat, this.state.lng]).addTo(map);
@@ -201,9 +200,7 @@ this.setState({ mapa: map });
         zoom: map.getZoom(),
       });
     });
-   
   }
-  
   
   
   handleMapMove(map, marker) {
@@ -280,15 +277,17 @@ render() {
   return (
     
     <div>
-      {/* <Navbar toggleSidebar={this.toggleSidebar} /> */}
-      <div className="footer">
+     <div className='footer'>
+     
+        {/* <Carousel images={this.state.images}/> */}
+            
         Longitude: {this.state.lng} | Latitude: {this.state.lat} | 
         <Weather latitude={this.state.lat} longitude={this.state.lng} />
       </div>
       <div>
         <div ref={this.mapContainer} className="map-OSM-container"></div>
         <button  id="startBtn" className="show" >Zaczynamy</button>
-        <button  id="zoomOutBtn" className={this.state.zoom>6?'zoomOutBtn show' : 'zoomOutBtn'} >Zoom Out</button>
+        <button  id="zoomOutBtn" className={this.state.zoom>6&&!this.props.up?'zoomOutBtn show' : 'zoomOutBtn'} >Zoom Out</button>
         <MapSearchByKeyword legends={this.state.legends} flyToMarker={this.flyToMarker} />
       </div>
       <div>

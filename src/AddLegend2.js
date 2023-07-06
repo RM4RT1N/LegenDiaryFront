@@ -10,19 +10,24 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
         initialValues: {
             description: '',
             name: '',
-        },
-        validationSchema: Yup.object({
+            urlImages: [''] // Tablica URL obrazków
+          },
+          validationSchema: Yup.object({
             name: Yup.string().min(3, "Tytuł musi mieć minimum 3 znaki").required("Pole Tytuł jest wymagane"),
-            description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane")
-        }),
-        onSubmit: (values) => {
+            description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane"),
+            urlImages: Yup.array().of(
+              Yup.string().url("Nieprawidłowy format URL obrazka")
+            )
+          }),
+          onSubmit: (values) => {
             const data = {
-                userId:userID,
-                category_id: 1,
-                latitude:latitude,
-                longitude:longitude,
-                description: values.description,
-                name: values.name
+              userId: userID,
+              category_id: 1,
+              latitude: latitude,
+              longitude: longitude,
+              description: values.description,
+              name: values.name,
+              imageUrls: values.urlImages
             }
             fetch("http://localhost:8081/api/add-legend",{
                 method:"POST",
@@ -34,6 +39,7 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
             }).then((response)=>{
                 if (response.ok){
                     window.location.reload()
+                    
                 }else {
                     console.log("Coś nie tak")
                 }
@@ -74,6 +80,40 @@ const AddLegend2 = ({ userID, latitude, longitude }) => {
                     />
                     {formik.touched.description && formik.errors.description ? <p className={'errorMsg'}>{formik.errors.description}</p> : null}
                 </div>
+                <div>
+  {formik.values.urlImages.map((url, index) => (
+    <div key={index}>
+      <input
+        id={`urlImage-${index}`}
+        name={`urlImages[${index}]`}
+        type="text"
+        placeholder="Link do zdjęcia"
+        className="urlImage"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={url}
+      />
+      {formik.touched.urlImages && formik.errors.urlImages && formik.errors.urlImages[index] ? (
+        <p className="errorMsg">{formik.errors.urlImages[index]}</p>
+      ) : null}
+    </div>
+  ))}
+</div>
+<button
+  type="button"
+  onClick={() => formik.setFieldValue('urlImages', [...formik.values.urlImages, ''])}
+>
+  Dodaj obrazek
+</button>
+<button
+  type="button"
+  onClick={() =>
+    formik.setFieldValue('urlImages', formik.values.urlImages.slice(0, -1))
+  }
+  disabled={formik.values.urlImages.length === 1}
+>
+  Usuń obrazek
+</button>
                 <label>Koordynaty:</label>
                 <div>
                     <input

@@ -1,6 +1,7 @@
 .user-panel {
     margin-top: 70px;
     margin-left: 100px;
+    z-index: 1000;
     
   }
   

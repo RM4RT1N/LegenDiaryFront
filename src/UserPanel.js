@@ -10,21 +10,21 @@ export default class UserPanel extends React.Component {
         super();
         this.state={
             editLegend:false,
-            idLegend:null
+            legend:null
         }
         }
 
-handleEditLegend(id){
-    if(this.state.editLegend){
+handleEditLegend(place){
+    if(this.state.editLegend&&place===this.state.legend){
         this.setState({
             editLegend:false,
-            idLegend:null
+            legend:null
         })
     }
     else{
     this.setState({
         editLegend:true,
-        idLegend:id
+        legend:place
     })
     }
 
@@ -57,7 +57,7 @@ render() {
             <ul>
                 {this.props.userData.places.map((place) => (
                     <li key={place.id}>{place.name}
-                    <a href="#" onClick={() => this.handleEditLegend(place.id)}>
+                    <a href="#" onClick={() => this.handleEditLegend(place)}>
                     Edit
                     </a>
                     </li>
@@ -71,7 +71,7 @@ render() {
 
         </div>
     </div>
-    {this.state.editLegend?<Edit/>:null}
+    {this.state.editLegend?<Edit place={this.state.legend}/>:null}
     </div>
     );
   };}

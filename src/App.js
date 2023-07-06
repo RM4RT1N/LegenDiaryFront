@@ -175,8 +175,8 @@ decodeToken(token){
                         <LeftSidebar  userID={this.state.userData.id} latitude={latitude} longitude={longitude} toggleSidebar={this.sidebarClose} visible={sidebarVisible} />
                         
                         {this.state.userPanelOpen?<UserPanel show={this.state.userPanelOpen}  userData={this.state.userData}/>
-                        :
-                        <OSM cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>}
+                        :null}
+                        <OSM up={this.state.userPanelOpen}cords={this.setCords.bind(this)} sidebarOpen={this.sidebarOpen} toggle={this.drawerToggleClickHandler} drawerClose={this.drawerHandleClose}/>
                     </>:
 
                     <Welcome/>}
