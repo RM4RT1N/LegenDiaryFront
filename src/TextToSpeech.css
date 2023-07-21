@@ -1,0 +1,56 @@
+.TextToSpeech {
+    position: fixed;
+    height: 10%;
+    width: 100%;
+    bottom: -0.5%;
+    left: 0;
+    background-color: #044e05;   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    padding: 12.5px 0px 12.5px 0px;
+ /*    margin-top: 15px; */
+    margin-bottom: 5px;
+ }
+ 
+ .ttsPlayPauseBtn-Playing  {
+    background-image: url("./buttons/pauseBtn.png");
+    background-color: #044e05;
+    background-size: cover;   
+    border: none;   
+    height:50px;
+    width:50px;
+    z-index: 200;
+    margin-right: 5px;
+    cursor: pointer;
+ }
+ .ttsPlayPauseBtn-Playing :hover {
+    background-color: #021d02;
+ }
+ .ttsPlayPauseBtn-Paused  {
+    background-image:url("./buttons/playBtn.png");
+    background-color: #044e05;
+    background-size: cover;
+    border-radius: 25px;
+    width: 50px;
+    height: 50px;
+    z-index: 200;
+    border: none;
+    margin-right: 5px;
+    cursor: pointer;
+ }
+ .ttsPlayPauseBtn-Paused :hover {
+    background-color: #fff;
+ }
+ 
+ .ttsStopBtn {
+    background-image:url("./buttons/stopBtn.png");
+    background-color: #044e05;
+    background-size: cover;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: none;
+    z-index: 200;
+ }

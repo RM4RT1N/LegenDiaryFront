@@ -25,7 +25,11 @@ class LeftSidebar extends React.Component {
         <img src={require("./nav1.png")} alt="Logo" width="50" height="50" />
         <button className='leftSidebarCloseBtn' onClick={this.props.toggleSidebar}>X</button>
         </div>
+<<<<<<< Updated upstream
         <AddLegend2 />
+=======
+        <AddLegend2 userID={this.props.userID} username={this.props.username} latitude={latitude} longitude={longitude}/>
+>>>>>>> Stashed changes
       </div>
     );
   }

@@ -1,0 +1,30 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -400px; /* Szerokość panelu bocznego */
+    width: 400px; /* Szerokość panelu bocznego */
+    height: 100vh; /* Pełna wysokość widoku */
+    background-color: #333; /* Kolor tła panelu bocznego */
+    transition: left 0.3s ease; /* Efekt animacji przesuwania */
+    z-index: 9999; /* Poziom z-indeksu, aby panel boczny był na wierzchu */
+    color:white;
+  }
+
+  .sidebar.visible {
+    left: 0; /* Przesuń panel boczny do widocznej pozycji */
+  }
+  .editSidebarCloseBtn{
+    width: 10%;
+    height: 4%;
+    margin-left: 89%;
+  }
+
+  .navAdd {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .editSidebarCloseBtn {
+    margin-left: auto;
+  }

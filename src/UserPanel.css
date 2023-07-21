@@ -1,49 +1,56 @@
 .user-panel {
-    margin-top: 70px;
-    margin-left: 100px;
-    
-  }
+  height: 30%;
+  margin-top: 70px;
+  margin-left: 100px;
+  z-index: 1000;
+}
+.avatar-container {
+  margin-right: 10px;
   
-  .avatar-container {
-    margin-right: 10px;
-   
-  }
+}
+.avatar {
+  margin-right: 10px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 300px;
+}
+.badget{
+  width: 100px;
+  height: 100px;
+}
+.user-badgets{
+  display:flex;
+}
+.clmn{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  z-index: 2000;
+  padding-bottom: 50px;
+}
+video {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.0);
+  z-index: -1;
   
-  .avatar {
-    margin-right: 10px;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    width: 300px;
-    height: 300px;
-  }
-  .badget{
-    width: 100px;
-    height: 100px;
-  }
-  .user-badgets{
-    display:flex;
-  }
-  .clmn{
-    display:flex;
-  }
-  video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
-  
-  .overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.0);
-    z-index: -1;
-    
-  }
- 
+}
+
+#user-legends-list{
+  overflow: auto;
+  list-style-type: none;
+}

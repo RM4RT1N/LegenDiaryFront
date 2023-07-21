@@ -15,6 +15,7 @@ const AddLegend2 = ({ onSubmit }) => {
     setTitle(e.target.value);
   };
 
+<<<<<<< Updated upstream
   const handleMapMove = (map, marker) => {
     const lng = map.getCenter().lng.toFixed(4);
     const lat = map.getCenter().lat.toFixed(4);
@@ -36,6 +37,48 @@ const AddLegend2 = ({ onSubmit }) => {
       latitude: latitude,
       category_id: 1,
     };
+=======
+    const formik = useFormik({
+        initialValues: {
+            description: '',
+            name: '',
+            urlImages: [''] // Tablica URL obrazków
+          },
+          validationSchema: Yup.object({
+            name: Yup.string().min(3, "Tytuł musi mieć minimum 3 znaki").required("Pole Tytuł jest wymagane"),
+            description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane"),
+            urlImages: Yup.array().of(
+              Yup.string().url("Nieprawidłowy format URL obrazka")
+            )
+          }),
+          onSubmit: (values) => {
+            const data = {
+              userId: userID,
+              category_id: 1,
+              latitude: latitude,
+              longitude: longitude,
+              description: values.description,
+              name: values.name,
+              imageUrls: values.urlImages
+            }
+            fetch("http://localhost:8081/api/add-legend",{
+                method:"POST",
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem("jwtToken")}`,
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(data)
+            }).then((response)=>{
+                if (response.ok){
+                    window.location.reload()
+                    
+                }else {
+                    console.log("Coś nie tak")
+                }
+            }).catch((error)=>{
+                console.log(error.message, error)
+            })
+>>>>>>> Stashed changes
 
     fetch('http://localhost:8081/api/add-legend', {
       method: 'POST',
@@ -68,6 +111,7 @@ const AddLegend2 = ({ onSubmit }) => {
       zoom: 5,
     });
 
+<<<<<<< Updated upstream
     const marker = new mapboxgl.Marker({
       color: 'red',
       draggable: true,
@@ -95,6 +139,92 @@ const AddLegend2 = ({ onSubmit }) => {
           
           <textarea className="description" type="text" id="description" value={description} onChange={handleDescriptionChange} />
           
+=======
+
+    return (
+        <div align="center" className="wrapper">
+            <h1>Dodaj legendę</h1>
+            <form onSubmit={formik.handleSubmit}>
+                <div>
+                    <input
+                        id={'name'}
+                        name={'name'}
+                        type={'text'}
+                        placeholder={"Tytuł"}
+                        className={"formAddTitle"}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.name}
+                    />
+                    {formik.touched.name && formik.errors.name ? <p className={'errorMsg'}>{formik.errors.name}</p> : null}
+                </div>
+                <div>
+                    <textarea
+                        id={'description'}
+                        name={'description'}
+                        placeholder={"Opis legendy"}
+                        className={"description"}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.description}
+                    />
+                    {formik.touched.description && formik.errors.description ? <p className={'errorMsg'}>{formik.errors.description}</p> : null}
+                </div>
+                <div>
+  {formik.values.urlImages.map((url, index) => (
+    <div key={index}>
+      <input
+        id={`urlImage-${index}`}
+        name={`urlImages[${index}]`}
+        type="text"
+        placeholder="Link do zdjęcia"
+        className="urlImage"
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={url}
+      />
+      {formik.touched.urlImages && formik.errors.urlImages && formik.errors.urlImages[index] ? (
+        <p className="errorMsg">{formik.errors.urlImages[index]}</p>
+      ) : null}
+    </div>
+  ))}
+</div>
+<button
+  type="button"
+  onClick={() => formik.setFieldValue('urlImages', [...formik.values.urlImages, ''])}
+>
+  Dodaj obrazek
+</button>
+<button
+  type="button"
+  onClick={() =>
+    formik.setFieldValue('urlImages', formik.values.urlImages.slice(0, -1))
+  }
+  disabled={formik.values.urlImages.length === 1}
+>
+  Usuń obrazek
+</button>
+                <br/>
+                <label>Koordynaty:</label>
+                <div>
+                    <input
+                        id={"latitude"}
+                        name={"latitude"}
+                        className={'cord'}
+                        readOnly={true}
+                        value={latitude}
+                    />
+                    <input
+                        id={"longitude"}
+                        name={"longitude"}
+                        className={'cord'}
+                        readOnly={true}
+                        value={longitude}
+                    />
+                </div>
+                <button className={"subButton"} type={"submit"}> Zapisz </button>
+            </form>
+>>>>>>> Stashed changes
         </div>
 
         <div className="addMapLegend" id="map" style={{ width: '400px', height: '400px' }}></div>

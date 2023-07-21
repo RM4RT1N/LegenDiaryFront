@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import './TextToSpeech.css'
 
 const TextToSpeech = ({ text }) => {
   const [isPaused, setIsPaused] = useState(true);
   const [utterance, setUtterance] = useState(null);
+  const [voice, setVoice] = useState(null)
 
   useEffect(() => {
     const synth = window.speechSynthesis;

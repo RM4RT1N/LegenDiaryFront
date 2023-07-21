@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function Edit() {
-  const { id } = useParams();
+const Edit = ({ place })=> {
   const [legendData, setLegendData] = useState();
   const [formData, setFormData] = useState({
     name: '',
@@ -12,18 +11,17 @@ function Edit() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:8081/place/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setLegendData(data);
+    
+       
+        setLegendData(place);
         setFormData({
-          name: data.name,
-          description: data.description,
-          longitude: data.longitude,
-          latitude: data.latitude
+          name: place.name,
+          description: place.description,
+          longitude: place.longitude,
+          latitude: place.latitude
         });
-      });
-  }, [id]);
+      
+  }, [place])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -39,7 +37,7 @@ function Edit() {
         latitude: formData.latitude,
       };
   
-      fetch(`http://localhost:8081/api/edit-legend/${id}`, {
+      fetch(`http://localhost:8081/api/edit-legend/${place.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

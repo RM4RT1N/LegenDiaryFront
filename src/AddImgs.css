@@ -1,0 +1,59 @@
+.add-imgs {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: #333; /* Semi-transparent black background */
+   z-index: 999; /* Higher z-index to ensure it's above other content */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .add-imgs-content {
+   text-align: center;
+   background-color: #333;
+   padding: 20px;
+   border-radius: 5px;
+   color: white;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .add-imgs-close-btn{
+  position: absolute;
+  background-image: url("./buttons/closeBtn.png");
+  background-color: transparent;
+  background-size: cover;
+  border-radius: 50%;
+  border: none;   
+  height:30px;
+  width:30px;   
+  top: 5px;
+  right: 5px;   
+  cursor: pointer;
+}
+
+.subButton{
+  width: fit-content;
+  height:fit-content;
+  padding: 15px 10px 15px 10px;
+  background-color: #1db954;
+  border-radius: 500px;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -400px; /* Szerokość panelu bocznego */
+  width: 400px; /* Szerokość panelu bocznego */
+  height: 100vh; /* Pełna wysokość widoku */
+  background-color: #333; /* Kolor tła panelu bocznego */
+  transition: left 0.3s ease; /* Efekt animacji przesuwania */
+  z-index: 9999; /* Poziom z-indeksu, aby panel boczny był na wierzchu */
+  color:white;
+}
