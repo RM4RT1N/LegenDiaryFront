@@ -1,0 +1,144 @@
+@import "util.css";
+@media (min-width: 360px) {
+   .side-drawer {
+      background: var(--bgc-main-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: absolute;
+      height: 100%;
+      width: 100vw;
+      top: 0;
+      right: 0;
+      z-index: var(--z-index-2);
+      box-shadow: 1px 0 7px rgba(0,0,0,0.5);
+      transform: translateX(100%);
+      transition: transform 0.3s ease-out;
+      color: #fff;
+      overflow:hidden;
+   }
+   .side-drawer.open {
+      transform: translateX(0);
+      z-index: 2;
+   }
+
+   .sidebarCloseBtn{
+      display: flex;
+      background-image: url("resources/icons/closeBtn.png");
+      background-color: var(--bgc-main-color);
+      background-size: cover;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+   }
+   .sidebarCloseBtn:hover{
+      background-color: #044e05;
+   }
+
+   .right-side-bar-title {
+      display: flex;
+      background-color: var(--bgc-main-color);
+      height: fit-content;
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+      z-index: 3;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+   }
+
+   .description {
+      background-color: var(--bgc-main-color);
+      display: flex;
+      height: 100%;
+      z-index: 3;
+      overflow-y: scroll;
+      color: white;
+      padding: 1vh;
+      text-wrap: revert;
+      word-break: break-word;
+   }
+
+   .tools {
+      width: 100%;
+      background-color: var(--bgc-main-color);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+      align-self: flex-end;
+      padding: 1vh;
+   }
+
+   .ttsPlayPauseBtn-Playing  {
+      background-image: url("resources/icons/pauseBtn.png");
+      background-color: var(--bgc-main-color);
+      background-size: cover;
+      border: none;
+      z-index: 3;
+      cursor: pointer;
+   }
+   .ttsPlayPauseBtn-Playing :hover {
+      background-color: #021d02;
+   }
+   .ttsPlayPauseBtn-Paused  {
+      background-image:url("resources/icons/playBtn.png");
+      background-color: var(--bgc-main-color);
+      background-size: cover;
+      border-radius: 25px;
+      z-index: 3;
+      border: none;
+      cursor: pointer;
+   }
+   .ttsPlayPauseBtn-Paused :hover {
+      background-color: #fff;
+   }
+
+   .ttsStopBtn {
+      background-image:url("resources/icons/stopBtn.png");
+      background-color: var(--bgc-main-color);
+      background-size: cover;
+      cursor: pointer;
+      border: none;
+   }
+   .imageCarousel{
+      display: flex;
+      height: 50vh;
+   }
+
+   .tools-button{
+      height: 5vh;
+      width: 5vh;
+   }
+   .tts-wraper{
+      background-color: var(--bgc-main-color);
+      width: 22%;
+      display: flex;
+      justify-content: space-between;
+   }
+
+
+   @media (min-height:800px) {
+      .tts-wraper{
+         width: 30%;
+      }
+   }
+   @media (min-width: 768px){
+      .tts-wraper{
+         width: 15%;
+      }
+      .description {
+        font-size: 20px;
+      }
+      .right-side-bar-title {
+         font-size: 35px;
+         height: 7vh;
+         align-content: center;
+      }
+      .side-drawer {
+         width: 30vw;
+      }
+   }
+}

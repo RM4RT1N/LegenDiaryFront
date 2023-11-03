@@ -1,33 +1,87 @@
-.welcome-text {
-    color: white;
-    text-align: center;
-    opacity: 0;
-    animation: fade-in 1s ease-in-out forwards;
-    background-color: #333;
-    padding: 10px;
-  }
-  
-  @keyframes fade-in {
-    from {
-      opacity: 0;
+@import url(Fonts.css);
+
+@media (min-width: 360px){
+    .welcome-section{
+        background-color: #021d02;
+        height: 100%;
     }
-    to {
-      opacity: 1;
+    .welcome-text {
+        color: white;
+        font-family: var(--title-font-2);
+        text-align: center;
+        opacity: 0;
+        animation: fade-in 1s ease-in-out forwards;
+        -webkit-text-stroke: 1px black;
+        font-size: 36px;
     }
-  }
-  .welcome-logo {
-    opacity: 0;
-    animation: fade-in 1s ease-in-out forwards;
-    transition: opacity 0.5s ease-in-out; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+    .title{
+        font-size: 50px;
+        margin-bottom: 2vh;
+    }
+    .welcome-logo {
+        margin-top: 5vh;
+        opacity: 0;
+        animation: fade-in 1s ease-in-out forwards;
+        transition: opacity 0.5s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 55vh;
+    }
+    .video{
+        display: none;
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+}
+
+@media (min-width: 768px){
+    .welcome-section{
+        background-color: transparent;
+    }
+    .video{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+@media (min-height:800px){
+
+       .image-container{
+           height: 60vh;
+       }
+}
+@media(min-height: 1000px){
+    .welcome-section{
+        height: 100%;
+    }
+    .image-container{
+        height: 70vh;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .image-container{
+        height: 70vh;
+    }
+}
+
+
+
+
   

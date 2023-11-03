@@ -1,7 +1,8 @@
 import React from "react";
-import Login from "./Login";
-import Register from "./Register";
+import LoginActive from "./LoginActive";
+import RegisterActive from "./RegisterActive";
 import './Navbar.css';
+import MapSearchByKeyword from "./MapSearchByKeyword";
 
 
 class Navbar extends React.Component  {
@@ -61,27 +62,29 @@ class Navbar extends React.Component  {
   render() {
 
       return (
+          <section className="navbar-wraper">
           <nav className="navbar">
               {!this.props.user?
                   <ul className="navbar-list">
-                  {this.state.login?
-                      <Login/>:
                       <li className={"nav-element"}
-                          onClick={this.handleLoginActive.bind(this)}>
-                          Legend-in</li>}
-                  {this.state.register?
-                      <Register/>:
+                          onClick={this.handleLoginActive.bind(this)}>Legend-in</li>
                       <li className={"nav-element"}
-                          onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>}
+                          onClick={this.handleRegisterActive.bind(this)}>Legend-ister</li>
+                      <li className={"nav-element"}> Browse map</li>
+                      <li className={"nav-element"}>About Us</li>
                   </ul>
                   :
                   <ul className="navbar-list">
-                    <li className={"nav-element"} onClick={this.props.userPanel} >{this.props.user.username}</li>
+                      <li className={"nav-element"} onClick={this.props.userPanel} >{this.props.user.username}</li>
                       <li className={"nav-element"} onClick={this.handleLogout}>Wyloguj</li>
+                      <li className={"nav-element"}>About Us</li>
                   </ul>
               }
-
           </nav>
+              {!this.props.up?<MapSearchByKeyword legends={this.state.legends} flyToMarker={this.flyToMarker} />:null}
+              <LoginActive active={this.state.login}/>
+              <RegisterActive active={this.state.register}/>
+          </section>
       );
   };
 

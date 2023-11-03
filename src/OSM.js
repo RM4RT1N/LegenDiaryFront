@@ -24,7 +24,8 @@ class OpenMap extends React.PureComponent {
       title: '',
       description: '',
       mapa: null,
-      images:[]
+      images:[],
+      isNightMode: false
     };
     this.mapContainer = React.createRef();
     this.playerContainer = React.createRef();
@@ -49,6 +50,7 @@ class OpenMap extends React.PureComponent {
       }
       const data = await response.json();
       this.setState({images : data});
+      this.props.allImages(data);
     } catch (error) {
       console.error(error.message, error);
     }
@@ -162,25 +164,29 @@ class OpenMap extends React.PureComponent {
     this.setState({ filteredLegends: filteredMarkers });
   }
 
-  
-  
+  setMap(lat,lng){
+    this.state.mapa.setView([
+      lat,lng],
+      6
+    );
+  }
+  handleStyleToggle = () => {
+    this.setState((prevState) => ({
+      isNightMode: !prevState.isNightMode,
+    }));
+  };
   componentDidMount() {
     this.loadAllLegends();
-    const zoomOutBtn = document.getElementById("zoomOutBtn")
-    zoomOutBtn.addEventListener("click", () => {
-      this.state.mapa.setView([
-        51.7470,19.8056],
-        6
-      );
-    });
-    const startBtn = document.getElementById("startBtn");
-    startBtn.addEventListener("click", () => {
-    this.state.mapa.setView([51.7470, 19.8056], 6);
-    startBtn.style.display = "none";
+
+    const styleMapBtn = document.getElementById("styleMapBtn");
+    styleMapBtn.addEventListener("click", () => {
+      this.handleStyleToggle();
+      document.getElementById("styleMapBtn").classList.toggle("light-mode")
 });
 
     this.loadRadio();
     this.loadImages();
+    
 
     const map = L.map(this.mapContainer.current).setView([this.state.lat, this.state.lng], this.state.zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -188,10 +194,14 @@ class OpenMap extends React.PureComponent {
   
 
 
-    this.setState({ mapa: map });
+    // this.setState({ mapa: map });
 
+    const centerIcon = L.icon({
+      iconUrl: './resources/icons/crosshair.png',
+      
 
-    const marker = L.marker([this.state.lat, this.state.lng]).addTo(map);
+    })
+    const marker = L.marker([this.state.lat, this.state.lng],{icon: centerIcon}).addTo(map);
     marker.getElement().classList.add('colorCenterMarker');
     map.on('move', (event) => {
       this.handleMapMove(map, marker);
@@ -199,6 +209,10 @@ class OpenMap extends React.PureComponent {
       this.setState({
         zoom: map.getZoom(),
       });
+      map.on('moveend',(event)=>{this.setState({
+        wthrLng: this.state.lng,
+        wthrLat: this.state.lat
+      });})
     });
   }
   
@@ -274,32 +288,28 @@ toRadians(degrees) {
 }
 
 render() {
+  const { isNightMode } = this.state;
   return (
     
-    <div>
-     <div className='footer'>
-     
-        {/* <Carousel images={this.state.images}/> */}
-            
-        Longitude: {this.state.lng} | Latitude: {this.state.lat} | 
-        <Weather latitude={this.state.lat} longitude={this.state.lng} />
-      </div>
-      <div>
-        <div ref={this.mapContainer} className="map-OSM-container"></div>
-        <button  id="startBtn" className="show" >Zaczynamy</button>
-        <button  id="zoomOutBtn" className={this.state.zoom>6&&!this.props.up?'zoomOutBtn show' : 'zoomOutBtn'} >Zoom Out</button>
-        <MapSearchByKeyword legends={this.state.legends} flyToMarker={this.flyToMarker} />
-      </div>
-      <div>
-      <button className='addLegend' id="addLegend"  onClick={this.props.sidebarOpen}> + </button>
-      </div>
-
-      {this.state.showPlayer && (
-        <div className="player-container" ref={this.playerContainer}>
-          <AudioPlayer src={this.state.urlRadio} controls />
+    <section className={"map-section-wraper"}>
+        <div ref={this.mapContainer} 
+        className={`map-OSM-container ${isNightMode ? 'night-mode' : 'day-mode'}`}>
+          {/* className={`map-OSM-container`}> */}
         </div>
-      )}
-    </div>
+        <button  id="styleMapBtn" className="styleMap light-mode" > </button>
+        {this.state.showPlayer && (
+            <div className="player-container" ref={this.playerContainer}>
+              <AudioPlayer src={this.state.urlRadio} controls />
+            </div>
+        )}
+      <div className={"cords-weather"}>
+        <p>Longitude: {this.state.lng} | Latitude: {this.state.lat} |</p>
+        <Weather latitude={this.state.wthrLat} longitude={this.state.wthrLng} />
+      </div>
+      <div>
+      {!this.props.up?<button className='addLegend' id="addLegend"  onClick={this.props.sidebarOpen}> + </button>:null}
+      </div>
+    </section>
   );
 }
 }

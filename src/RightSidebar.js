@@ -1,5 +1,5 @@
 import React from 'react';
-import './Sidebar.css';
+import './RightSidebar.css';
 import TextToSpeech from './TextToSpeech';
 import Carousel from './Carousel.js';
 
@@ -17,16 +17,15 @@ export default class SlideDrawer extends React.Component {
 
     return (
       <div className={drawerClasses}>
-        <button className='sidebarCloseBtn' onClick={this.props.drawerClose}></button>
-        <div className='title'>{this.props.title}</div>
+        <p className='right-side-bar-title'>{this.props.title}</p>
         <div className='imageCarousel'>
                <Carousel images={this.props.images}/>
-            </div>
-        <div className='description'>{this.props.description}</div>
-      <div className='TextToSpeech'>
-      <TextToSpeech text={this.props.description} />
-          </div>
-        
+        </div>
+        <p className='description'>{this.props.description}</p>
+      <div className='tools'>
+          <button className='sidebarCloseBtn tools-button' onClick={this.props.drawerClose}></button>
+          <TextToSpeech text={this.props.description} />
+      </div>
       </div>
     );
   }

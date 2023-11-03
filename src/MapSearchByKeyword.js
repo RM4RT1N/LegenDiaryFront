@@ -23,10 +23,10 @@ class MyComponent extends Component {
       const itemDesc = item.description.toLowerCase();
       const searchTerm = query.toLowerCase();
       return (
-        itemName.includes(searchTerm) ||
-        itemDesc.includes(searchTerm) ||
-        itemName.includes(this.similarWord(searchTerm)) ||
-        itemDesc.includes(this.similarWord(searchTerm))
+          itemName.includes(searchTerm) ||
+          itemDesc.includes(searchTerm) ||
+          itemName.includes(this.similarWord(searchTerm)) ||
+          itemDesc.includes(this.similarWord(searchTerm))
       );
     });
 
@@ -42,40 +42,29 @@ class MyComponent extends Component {
     const { searchQuery, filteredResults } = this.state;
 
     return (
-      <div className='searchDiv'>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <input
-                  className='searchBar'
-                  type="search"
-                  value={searchQuery}
-                  onChange={this.handleSearchInputChange}
-                  placeholder="Search in LegenDiary..."
-                />
-              </th>
-              <th>
-                {/* <button className='clearSearchBtn' ></button> */}
-              </th>
-            </tr>
-          </thead>
-        </table>
-        {searchQuery !== '' && (
-          <ul className='resultList'>
-            {filteredResults.map(item => (
-              <li
-                className="resultItem"
-                id={item.id}
-                key={item.id}
-                onClick={() => this.handleClick(item)}
-              >
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        <div className='searchDiv'>
+          <input
+              className='searchBar'
+              type="search"
+              value={searchQuery}
+              onChange={this.handleSearchInputChange}
+              placeholder="Search in LegenDiary..."
+          />
+          {searchQuery !== '' && (
+              <ul className='resultList'>
+                {filteredResults.map(item => (
+                    <li
+                        className="resultItem"
+                        id={item.id}
+                        key={item.id}
+                        onClick={() => this.handleClick(item)}
+                    >
+                      {item.name}
+                    </li>
+                ))}
+              </ul>
+          )}
+        </div>
     );
   }
 }

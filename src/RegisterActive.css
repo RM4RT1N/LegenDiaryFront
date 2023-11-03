@@ -1,0 +1,88 @@
+@media(min-width: 360px){
+    .register-form-hidden {
+        position: absolute;
+        display: block;
+        background-color: #333;
+        height: 45vh;
+        width:60vw;
+        top: -100%;
+        left: calc(50% - 25vw);
+        transition:1s ease-in-out;
+    }
+    .register-form-active{
+        position: absolute;
+        top:7vh;
+        height: 45vh;
+        width:60vw;
+        left: calc(50% - 25vw);
+        z-index: 2;
+        background-color: #333;
+        transition:1s ease-in-out;
+    }
+    .register-form-element{
+        height: 7vh;
+        margin-bottom: 3vh;
+    }
+    .register-form-element input{
+        height: 75%;
+        width: 100%;
+        margin-bottom: 1vh;
+    }
+    #userType.register-form-element{
+        height: 5vh;
+        margin-bottom: 2vh;
+        position: relative;
+        width: 100%;
+        display: block;
+    }
+    .register-form-button{
+        position: relative;
+        height: 5vh;
+        width: 50%;
+        display: block;
+        left: 25%;
+    }
+    .errorMsg{
+        width: 100%;
+        color: red;
+        font-size: 14px;
+        text-align: center;
+        font-family: var(--ui-font-1);
+    }
+}
+@media(min-height: 1000px){
+    .errorMsg{
+        height: 50%;
+        font-size: 25px;
+        letter-spacing: 1px;
+    }
+    .register-form-element{
+        height: 7vh;
+        margin-bottom: 4vh;
+    }
+    .register-form-element input{
+       font-size: 24px;
+    }
+    .register-form-active{
+        height: 50vh;
+    }
+    .register-form-button{
+        font-size: 24px;
+    }
+    #userType.register-form-element{
+        font-size: 24px;
+    }
+}
+@media (min-width: 768px) {
+    .register-form-active {
+        width: 30vw;
+        left: calc(50% - 15vw);
+    }
+    .register-form-hidden {
+        width: 30vw;
+        left: calc(50% - 15vw);
+    }
+}
+
+
+

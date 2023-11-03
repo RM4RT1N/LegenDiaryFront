@@ -45,11 +45,11 @@ const TextToSpeech = ({ text }) => {
   };
 
   return (
-    <div className="TextToSpeech">
-      <button onClick={handleToggle} id="ttsPlayPauseBtn" className={isPaused ? "ttsPlayPauseBtn-Paused" : "ttsPlayPauseBtn-Playing" }>
+    <div className="tts-wraper">
+      <button onClick={handleToggle} id="ttsPlayPauseBtn" className={isPaused ? "ttsPlayPauseBtn-Paused tools-button" : "ttsPlayPauseBtn-Playing tools-button" }>
         {/* {isPaused ? "Play" : "Pause"} */}
       </button>
-      <button onClick={handleStop} id="ttsStopBtn" className="ttsStopBtn"></button>
+      <button onClick={handleStop} id="ttsStopBtn" className="ttsStopBtn tools-button"></button>
     </div>
   );
 };

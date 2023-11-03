@@ -1,9 +1,8 @@
 import React from 'react';
-import './NavigationForm.css';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {redirect} from "react-router-dom";
-export default function Login(){
+import './LoginActive.css'
+export default function LoginActive(props){
     const formik = useFormik({
         initialValues:{
             email:'',
@@ -38,8 +37,8 @@ export default function Login(){
 
     })
     return(
-        <form className={"login-form"}  onSubmit={formik.handleSubmit}>
-            <div className={'form-element'}>
+        <form className={`${props.active ? "login-form-active":"login-form-hidden"}`}  onSubmit={formik.handleSubmit}>
+            <div className={'login-form-element'}>
                 <input
                 id={'email'}
                 name={'email'}
@@ -48,9 +47,10 @@ export default function Login(){
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-            />
-                {formik.touched.email && formik.errors.email ? <p className={'errorMsg'}>{formik.errors.email}</p>:null}</div>
-            <div className={'form-element'}>
+                />
+                {formik.touched.email && formik.errors.email ? <p className={'errorMsg'}>{formik.errors.email}</p>:null}
+            </div>
+            <div className={'login-form-element'}>
                 <input
                 id={'password'}
                 name={'password'}
@@ -59,10 +59,11 @@ export default function Login(){
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-            />
-                {formik.touched.password && formik.errors.password ? <p className={'errorMsg'}>{formik.errors.password}</p>:null}</div>
+                />
+                {formik.touched.password && formik.errors.password ? <p className={'errorMsg'}>{formik.errors.password}</p>:null}
+            </div>
 
-            <button className={'form-button'} type={'submit'}>Legend-in</button>
+            <button className={'login-form-button'} type={'submit'}>Legend-in</button>
         </form>
     )
 }

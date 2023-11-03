@@ -1,5 +1,5 @@
 import React from 'react';
-import AddLegend2 from './AddLegend2';
+import AddLegend from './AddLegend';
 import './LeftSidebar.css';
 
 class LeftSidebar extends React.Component {
@@ -31,10 +31,10 @@ class LeftSidebar extends React.Component {
       
       <div className={visible ? 'sidebar visible' : 'sidebar'}>
         <div className="navAdd">
-        <img src={require("./nav1.png")} alt="Logo" width="50" height="50" />
-        <button className='leftSidebarCloseBtn' onClick={this.props.toggleSidebar}>X</button>
+        <img src={require("./resources/icons/nav1.png")} alt="Logo" width="50" height="50" />
+        <button className='leftSidebarCloseBtn' onClick={this.props.toggleSidebar}></button>
         </div>
-        <AddLegend2 userID={this.props.userID} latitude={latitude} longitude={longitude}/>
+        <AddLegend userID={this.props.userID} latitude={latitude} longitude={longitude}/>
       </div>
     );
   }
