@@ -6,24 +6,24 @@ class Carousel extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      photos:[]
+      images:[]
     };
     
   }
 
   next = () => {
     const currentIndex = this.state.currentIndex;
-    const photos = this.props.images;
+    const images = this.props.images;
     this.setState({
-      currentIndex: (currentIndex + 1) % photos.length
+      currentIndex: (currentIndex + 1) % images.length
     });
   };
 
   prev = () => {
     const currentIndex = this.state.currentIndex;
-    const photos = this.props.images;
+    const images = this.props.images;
     this.setState({
-      currentIndex: (currentIndex - 1 + photos.length) % photos.length
+      currentIndex: (currentIndex - 1 + images.length) % images.length
     });
   };
 
@@ -31,48 +31,60 @@ class Carousel extends Component {
     this.setState({ currentIndex: index });
   };
 
+  renderImages(images, currentIndex, isOnePhoto) {
+   return(
+    <>
+    <div className='slider-container'>
+      {images.map((photo) => (
+      <div
+        key={photo.id}
+        className={
+          images[currentIndex].id === photo.id ? 'fade' : 'slide fade'
+        }>
+        <img
+          src={photo.imageUrl}
+          className='photo'
+          alt='image'
+        />
+      </div>
+      ))}
+
+    {!isOnePhoto && (<button onClick={this.prev} className='prev'>
+      &lt;
+    </button>)}
+
+    {!isOnePhoto && (<button onClick={this.next} className='next'>
+      &gt;
+    </button>)}
+  </div>
+
+  
+  {!isOnePhoto && (<div className='dots'>
+    {images.map((photo) => (
+      <span
+        key={photo.id}
+        className={
+          images[currentIndex].id === photo.id ? 'dot active' : 'dot'
+        }
+        onClick={() => this.setCurrentIndex(images.indexOf(photo))}
+      ></span>
+    ))}
+  </div>)}
+  </>);
+  }
+
   render() {
-    /* this.setState({photos:this.props.images}); */
-    /* console.log(this.state.photos); */
     const currentIndex = this.state.currentIndex;
-    const photos = this.props.images;
-
+    const images = this.props.images;
+    let isOnePhoto=false;
+    if(images.length==1){
+      isOnePhoto=true;
+    }
+    
     return (
-      <>
-         <div className='slider-container'>
-          {photos.map((photo) => (
-            <div
-              key={photo.id}
-              className={
-                photos[currentIndex].id === photo.id ? 'fade' : 'slide fade'
-              }
-            >
-              <img src={photo.imageUrl} alt={photo.place_id} className='photo' />
-            </div>
-          ))}
+      <>{
+        this.renderImages(images, currentIndex, isOnePhoto)}</>
 
-          <button onClick={this.prev} className='prev'>
-            &lt;
-          </button>
-
-          <button onClick={this.next} className='next'>
-            &gt;
-          </button>
-        </div>
-
-        
-        <div className='dots'>
-          {photos.map((photo) => (
-            <span
-              key={photo.id}
-              className={
-                photos[currentIndex].id === photo.id ? 'dot active' : 'dot'
-              }
-              onClick={() => this.setCurrentIndex(photos.indexOf(photo))}
-            ></span>
-          ))}
-        </div>
-      </>
     );
   }
 }

@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Kaushan+Script&family=Merienda:wght@800&family=Mrs+Sheppards&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+:root{
+    --title-font-1:'Kaushan Script', cursive;
+    --title-font-2:'Courgette', cursive;
+    --title-font-3:'Merienda', cursive;
+    --title-font-4:'Permanent Marker', cursive;
+    --ui-font-1: 'Oswald', sans-serif;
+}

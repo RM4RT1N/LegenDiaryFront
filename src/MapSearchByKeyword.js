@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './MapSearchByKeyword.css';
 
 class MyComponent extends Component {
   constructor(props) {

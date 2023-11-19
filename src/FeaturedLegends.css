@@ -1,0 +1,54 @@
+.featured-visible{
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-end;
+  top: 15%;
+  left: 1.5%;  
+}
+.featured-item {
+  height: 100px;
+  width: 200px;
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
+  box-sizing: border-box;
+  border: 5px;
+  border-style: solid;
+  border-color: #343434;
+  border-radius: 10px;
+  transition : border 300ms ease-out;
+  
+}
+.featured-item:hover {
+  box-sizing: border-box;
+  border: 5px;
+  border-style: solid;
+  border-color: #fff;
+  border-radius: 10px;
+  transition: border 0.15 ease-out;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+.featured-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;  
+}
+
+.featured-item:hover .featured-title {
+  bottom: 10%; /* Slide text in from the bottom on hover */
+  background: rgba(70, 70, 70, 0.5);
+}
+.featured-title {
+  position: absolute;
+  margin-left: 5px;
+  bottom: -100%;
+  text-shadow: -1px 0 #343434, 0 1px #343434, 1px 0 #343434, 0 -1px #343434;
+  color: white;
+  width: 100%;
+  transition: bottom 0.15s ease;
+}

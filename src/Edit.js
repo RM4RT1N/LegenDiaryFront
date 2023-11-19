@@ -1,112 +1,134 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import './LeftSidebar.css'
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
-function Edit() {
-  const { id } = useParams();
-  const [legendData, setLegendData] = useState();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    longitude: '',
-    latitude: ''
+const Edit = ({ userID, latitude, longitude, userData, visible, legendId, images,editToggleSidebar }) => {
+  const legend = userData.places.find(legend => legend.id === legendId);
+  const imagesLegend = images.filter(image => image.place_id === legendId);
+  const formik = useFormik({
+    initialValues: {
+      description: legend ? legend.description : '',
+      name: legend ? legend.name : '',
+      urlImages: imagesLegend ? [...imagesLegend] : ['']
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().min(3, "Tytuł musi mieć minimum 3 znaki").required("Pole Tytuł jest wymagane"),
+      description: Yup.string().min(50, "Opis musi mieć conajmniej 50 znaków").required("Pole opis jest wymagane")
+    }),
+    onSubmit: (values) => {
+
+      const data = {
+        userId: userID,
+        category_id: 1,
+        latitude: latitude,
+        longitude: longitude,
+        description: values.description,
+        name: values.name
+      
+      }
+      
+      fetch(`http://localhost:8081/api/edit-legend/${legendId}`, {
+        method: "PATCH",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          console.log("Coś nie tak");
+        }
+      }).catch((error) => {
+        console.log(error.message, error);
+      });
+    }
   });
 
-  useEffect(() => {
-    fetch(`http://localhost:8081/place/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setLegendData(data);
-        setFormData({
-          name: data.name,
-          description: data.description,
-          longitude: data.longitude,
-          latitude: data.latitude
-        });
-      });
-  }, [id]);
+  React.useEffect(() => {
+    formik.setValues({
+      ...formik.values,
+      description: legend ? legend.description : '',
+      name: legend ? legend.name : '',
+      urlImages: imagesLegend ? [...imagesLegend] : ['']
+    });
+  }, [legend]);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...formik.values.urlImages];
+    updatedImages.splice(index, 1);
+    formik.setValues({
+      ...formik.values,
+      urlImages: updatedImages
+    });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-        name: formData.name,
-        description: formData.description,
-        longitude: formData.longitude,
-        latitude: formData.latitude,
-      };
-  
-      fetch(`http://localhost:8081/api/edit-legend/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log('ok');
-          } else {
-            console.log('not ok');
-          }
-        })
-        .catch((error) => {
-          console.error('Błąd podczas wysyłania danych do API:', error);
-        });
-    };
-  
-
   return (
-    <div>
-      {legendData && (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name:
+    <div className={visible ? 'edit-sidebar visible' : 'edit-sidebar'}>
+        <div className="navAdd">
+        <img src={require("./resources/icons/nav1.png")} alt="Logo" width="50" height="50" />
+        <button className='editSidebarCloseBtn' onClick={editToggleSidebar}>X</button>
+        </div>
+      <div align="center" className="wrapper">
+      
+        <h1>Popraw legendę</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <div>
             <input
-              type="text"
+              id="name"
               name="name"
-              value={formData.name}
-              onChange={handleInputChange}
+              type="text"
+              placeholder="Tytuł"
+              className="formAddTitle"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
             />
-          </label>
-          <br />
-          <label>
-            Description:
+            {formik.touched.name && formik.errors.name ? <p className="errorMsg">{formik.errors.name}</p> : null}
+          </div>
+          <div>
             <textarea
+              id="description"
               name="description"
-              value={formData.description}
-              onChange={handleInputChange}
+              placeholder="Opis legendy"
+              className="description"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.description}
             />
-          </label>
-          <br />
-          <label>
-            Longitude:
+            {formik.touched.description && formik.errors.description ? <p className="errorMsg">{formik.errors.description}</p> : null}
+          </div>
+
+          {formik.values.urlImages.map((image, index) => (
+            <div key={index}>
+              <img width="150" height="150" src={image.imageUrl} alt="Image" />
+              <button onClick={() => handleRemoveImage(index)}>X</button>
+            </div>
+          ))}
+          <label>Koordynaty:</label>
+          <div>
             <input
-              type="text"
-              name="longitude"
-              value={formData.longitude}
-              onChange={handleInputChange}
-            />
-          </label>
-          <br />
-          <label>
-            Latitude:
-            <input
-              type="text"
+              id="latitude"
               name="latitude"
-              value={formData.latitude}
-              onChange={handleInputChange}
+              className="cord"
+              readOnly={true}
+              value={latitude}
             />
-          </label>
-          <br />
-          <button type="submit">Aktualizuj</button>
+            <input
+              id="longitude"
+              name="longitude"
+              className="cord"
+              readOnly={true}
+              value={longitude}
+            />
+          </div>
+          <button className="subButton" type={"submit"}> Zapisz </button>
         </form>
-      )}
+      </div>
     </div>
   );
-}
+};
 
 export default Edit;

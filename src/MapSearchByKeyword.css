@@ -1,0 +1,53 @@
+.searchBar {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  top: 100px;
+  left: 50px;
+  width: fit-content;
+  border-style: solid;
+  border-radius: 5px;
+  border: #343434;
+  border: 3px;
+  resize: none;
+}
+
+.searchBar:focus {
+  outline: none;
+}
+.clearSearchBtn{
+  position: absolute;
+  background-image: url("resources/icons/closeBtnDark.png");
+  background-color: #056006;
+  background-size: cover;
+  border-radius: 50%;
+  border: none;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+.clearSearchBtn:hover{
+  background-color: #044e05;
+}
+
+.resultList {
+  position: absolute;
+  top: 150px;
+  left: 1.5%;
+  background-color: #fff;
+  border-color: #343434;
+  border-radius: 5px;
+  border: 3px;
+  box-shadow: 0px 0px 2px 0px grey inset;
+  list-style-type: none;
+  text-indent: 5px;
+  z-index: 1000;
+}
+.resultItem {
+  height: 30px;
+  margin: 5px 0;
+}
+
+.resultItem :hover {
+  cursor:pointer;
+} 

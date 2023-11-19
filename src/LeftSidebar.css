@@ -1,30 +1,64 @@
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -400px; /* Szerokość panelu bocznego */
-    width: 400px; /* Szerokość panelu bocznego */
-    height: 100vh; /* Pełna wysokość widoku */
-    background-color: #333; /* Kolor tła panelu bocznego */
-    transition: left 0.3s ease; /* Efekt animacji przesuwania */
-    z-index: 9999; /* Poziom z-indeksu, aby panel boczny był na wierzchu */
-    color:white;
-  }
-  
-  .sidebar.visible {
-    left: 0; /* Przesuń panel boczny do widocznej pozycji */
-  }
-  .leftSidebarCloseBtn{
-    width: 10%;
-    height: 4%;
-    margin-left: 89%;
-  }
+@media (min-width: 360px) {
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100%;
+        width: 100vw;
+        top: 0;
+        left:0;
+        transform:translateX(100%);
+        background-color: #333; /* Kolor tła panelu bocznego */
+        transition: left 0.3s ease-out; /* Efekt animacji przesuwania */
+        z-index: 3; /* Poziom z-indeksu, aby panel boczny był na wierzchu */
+        color:white;
+        font-family: var(--ui-font-1);
+    }
+    .visible {
+        transform: translateX(0%);
+    }
 
-  .navAdd {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .leftSidebarCloseBtn {
-    margin-left: auto;
-  }
+    .navAdd {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .leftSidebarCloseBtn {
+        position: relative;
+        top: 5%;
+        right: 5%;
+        height: 5vh;
+        width: 5vh;
+        background-image: url("resources/icons/closeBtn.png");
+        background-color: var(--bgc-main-color);
+        background-size: cover;
+        border: none;
+        color: white;
+        border-radius: 50%;
+
+    }
+    h1{
+        display: flex;
+        background-color: var(--bgc-main-color);
+        height: fit-content;
+        font-size: 30px;
+        font-weight: 800;
+        text-align: center;
+        z-index: 3;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        margin-bottom: 3vh;
+    }
+    label{
+        display: flex;
+        justify-content: center;
+        font-size: 16px;
+    }
+    @media (min-width: 768px) {
+        .sidebar {
+            width: 30vw;
+        }
+    }
+}

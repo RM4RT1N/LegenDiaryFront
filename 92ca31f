@@ -1,0 +1,19 @@
+[33m92ca31f[m[33m ([m[1;36mHEAD -> [m[1;32mDaniel[m[33m, [m[1;31morigin/Daniel[m[33m, [m[1;32mmain[m[33m)[m Merge branch 'Daniel'
+[33meb2a281[m add multiple adding images
+[33m5022cc8[m Login JWT === undefined exception handled v2
+[33m2d2f942[m Login JWT === undefined exception handled
+[33m77122ee[m add legend now working from dany branch, add filtering view legends, connect edit form in user panel and starting animation with button after loging
+[33m53700da[m Add Legend coordinate bug fixed
+[33m6b52d25[m add new features
+[33m33661c4[m OSM + user panel + add ledends working
+[33ma971b05[m rebuild app
+[33mf86c2c4[m addopen street map
+[33m6ad48a4[m rebuild app
+[33m94e7417[m laoding user in App component
+[33md8bfd30[m display of legends names in user panel
+[33m2528095[m Logout fetch implemented
+[33mdbe604d[m Merge branch 'main' of https://github.com/RM4RT1N/LegenDiaryFront
+[33m4908839[m addopen street map
+[33m8269a6e[m properly feched userd data to userPanel
+[33m1c3041c[m login/logout working
+[33mc0f37ce[m first of second version
